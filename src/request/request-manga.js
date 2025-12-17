@@ -1,11 +1,13 @@
 import { request } from "./request.js";
 
-const BASEURL = "http://192.168.0.100:3000";
+const BASEURL = "http://192.168.0.102:3000";
 
-export const getMangaSortBy = async ({ params }) => {
+export const getMangaSortBy = async (sort) => {
   const response = await request({
     url: `${BASEURL}/manga`,
-    params: params,
+    params: {
+      sort: sort,
+    },
     method: "get",
   });
 

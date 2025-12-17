@@ -1,12 +1,6 @@
-import { Dot } from "lucide-react-native";
+import { Dot, Eye, Star } from "lucide-react-native";
 import React from "react";
-import {
-  ImageBackground,
-  Pressable,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { ImageBackground, Text, useWindowDimensions, View } from "react-native";
 
 const PopularManga = ({ anime }) => {
   const { width, height } = useWindowDimensions();
@@ -14,53 +8,43 @@ const PopularManga = ({ anime }) => {
   return (
     <ImageBackground
       style={{
-        width: width * 0.8,
+        width: width * 0.35,
         height: height * 0.23,
-        padding: 15,
+        // padding: 15,
         borderRadius: 15,
         elevation: 5,
+        overflow: "hidden",
         justifyContent: "space-between",
         backgroundColor: "#34729C",
       }}
+      source={{ uri: anime.image }}
     >
       <View
         style={{
-          width: 35,
+          width: 70,
           padding: 5,
-          borderRadius: 5,
-          justifyContent: "center",
+          flexDirection: "row",
+          alignSelf: "flex-end",
+          justifyContent: "space-around",
           alignItems: "center",
           backgroundColor: "rgba(0,0,0,0.5)",
         }}
       >
-        <Text style={{ fontSize: 14, fontWeight: "500", color: "#D1ECFF" }}>
-          #1
+        <Eye size={15} color={"#6EC1D1"} />
+        <Text style={{ fontSize: 12, fontWeight: "500", color: "#D1ECFF" }}>
+          {anime.view}
         </Text>
       </View>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <View>
-          <Text style={{ fontSize: 16, fontWeight: "bold", color: "#D1ECFF" }}>
-            {anime.title}
-          </Text>
-          <Text style={{ color: "#C8EAEC" }}>{anime.genre}</Text>
-        </View>
-        <Pressable
-          style={{
-            width: 120,
-            height: 35,
-            marginLeft: 20,
-            flexDirection: "row",
-
-            backgroundColor: "rgba(0,0,0,0.5)",
-          }}
+      <View style={{ padding: 10, backgroundColor: "rgba(0,0,0,0.5)" }}>
+        <Text
+          numberOfLines={1}
+          style={{ fontSize: 16, fontWeight: "bold", color: "#D1ECFF" }}
         >
-          <View style={{ width: 3, backgroundColor: "#C8EAEC" }}></View>
-          <View style={{ flex: 1, alignSelf: "center" }}>
-            <Text style={{ textAlign: "center", color: "#C8EAEC" }}>
-              Chapter 1000
-            </Text>
-          </View>
-        </Pressable>
+          {anime.title}
+        </Text>
+        <Text style={{ fontSize: 12, fontWeight: "300", color: "#D1ECFF" }}>
+          {anime.genre}
+        </Text>
       </View>
     </ImageBackground>
   );

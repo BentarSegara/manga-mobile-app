@@ -8,7 +8,7 @@ import {
   Sun,
   WifiOff,
 } from "lucide-react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -26,6 +26,7 @@ import LinearGradient from "react-native-linear-gradient";
 import PopularManga from "../component/popular-manga-card";
 import TopManga from "../component/top-manga-card";
 import LatestManga from "../component/latest-manga-card";
+import { getMangaSortBy } from "../request/request-manga";
 
 const Section = ({ style, title, Icon, children }) => {
   return (
@@ -101,74 +102,100 @@ const Home = () => {
   const { width, height } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const popularManga = [
-    {
-      id: 1,
-      title: "Solo Leveling",
-      genre: "Action, Fantasy",
-      views: "1.2M",
-      imageColor: "bg-[#34729C]",
-    },
-    {
-      id: 2,
-      title: "One Piece",
-      genre: "Adventure",
-      views: "980k",
-      imageColor: "bg-[#6CB1DA]",
-    },
-    {
-      id: 3,
-      title: "Jujutsu Kaisen",
-      genre: "Supernatural",
-      views: "850k",
-      imageColor: "bg-[#1E5470]",
-    },
-  ];
+  const [topManga, setTopManga] = useState([]);
+  const [popularManga, setPopularManga] = useState([]);
+  const [latestManga, setLatestManga] = useState([]);
 
-  const topRatedManga = [
-    { id: 1, title: "Frieren", rating: 4.9, imageColor: "bg-[#6EC1D1]" },
-    { id: 2, title: "Oshi no Ko", rating: 4.8, imageColor: "bg-[#C8EAEC]" },
-    { id: 3, title: "Spy x Family", rating: 4.7, imageColor: "bg-[#6CB1DA]" },
-    { id: 4, title: "Chainsaw Man", rating: 4.6, imageColor: "bg-[#34729C]" },
-  ];
+  useEffect(() => {
+    const getMangaData = async () => {
+      setIsLoading(true);
+      try {
+        const data = await Promise.all([
+          getMangaSortBy("top"),
+          getMangaSortBy("popular"),
+          getMangaSortBy("latest"),
+        ]);
 
-  const newestManga = [
-    {
-      id: 1,
-      title: "Kaiju No. 8",
-      chapter: "Chapter 98",
-      time: "1 jam lalu",
-      imageColor: "bg-[#1E5470]",
-    },
-    {
-      id: 2,
-      title: "Blue Lock",
-      chapter: "Chapter 240",
-      time: "3 jam lalu",
-      imageColor: "bg-[#34729C]",
-    },
-    {
-      id: 3,
-      title: "Sakamoto Days",
-      chapter: "Chapter 143",
-      time: "5 jam lalu",
-      imageColor: "bg-[#6EC1D1]",
-    },
-    {
-      id: 4,
-      title: "Dandadan",
-      chapter: "Chapter 120",
-      time: "1 hari lalu",
-      imageColor: "bg-[#6CB1DA]",
-    },
-    {
-      id: 5,
-      title: "Kagurabachi",
-      chapter: "Chapter 18",
-      time: "1 hari lalu",
-      imageColor: "bg-[#C8EAEC]",
-    },
-  ];
+        setTopManga(data[0]);
+        setPopularManga(data[1]);
+        setLatestManga(data[2]);
+      } catch (err) {
+        console.error(err);
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getMangaData();
+  }, []);
+  // const popularManga = [
+  //   {
+  //     id: 1,
+  //     title: "Solo Leveling",
+  //     genre: "Action, Fantasy",
+  //     views: "1.2M",
+  //     imageColor: "bg-[#34729C]",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "One Piece",
+  //     genre: "Adventure",
+  //     views: "980k",
+  //     imageColor: "bg-[#6CB1DA]",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Jujutsu Kaisen",
+  //     genre: "Supernatural",
+  //     views: "850k",
+  //     imageColor: "bg-[#1E5470]",
+  //   },
+  // ];
+
+  // const topRatedManga = [
+  //   { id: 1, title: "Frieren", rating: 4.9, imageColor: "bg-[#6EC1D1]" },
+  //   { id: 2, title: "Oshi no Ko", rating: 4.8, imageColor: "bg-[#C8EAEC]" },
+  //   { id: 3, title: "Spy x Family", rating: 4.7, imageColor: "bg-[#6CB1DA]" },
+  //   { id: 4, title: "Chainsaw Man", rating: 4.6, imageColor: "bg-[#34729C]" },
+  // ];
+
+  // const newestManga = [
+  //   {
+  //     id: 1,
+  //     title: "Kaiju No. 8",
+  //     chapter: "Chapter 98",
+  //     time: "1 jam lalu",
+  //     imageColor: "bg-[#1E5470]",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Blue Lock",
+  //     chapter: "Chapter 240",
+  //     time: "3 jam lalu",
+  //     imageColor: "bg-[#34729C]",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Sakamoto Days",
+  //     chapter: "Chapter 143",
+  //     time: "5 jam lalu",
+  //     imageColor: "bg-[#6EC1D1]",
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Dandadan",
+  //     chapter: "Chapter 120",
+  //     time: "1 hari lalu",
+  //     imageColor: "bg-[#6CB1DA]",
+  //   },
+  //   {
+  //     id: 5,
+  //     title: "Kagurabachi",
+  //     chapter: "Chapter 18",
+  //     time: "1 hari lalu",
+  //     imageColor: "bg-[#C8EAEC]",
+  //   },
+  // ];
 
   return (
     <View style={{ flex: 1, backgroundColor: "#1E5470" }}>
@@ -220,24 +247,25 @@ const Home = () => {
         <ScrollView>
           <Section
             style={{ marginTop: 0 }}
-            title={"Paling Populer"}
-            Icon={Flame}
+            title={"Rating Teratas"}
+            Icon={Star}
           >
             <FlatList
               horizontal={true}
               ItemSeparatorComponent={() => <View style={{ width: 10 }}></View>}
-              data={popularManga}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => <PopularManga anime={item} />}
+              data={topManga}
+              keyExtractor={(_, index) => index.toString()}
+              renderItem={({ item }) => <TopManga anime={item} />}
             />
           </Section>
-          <Section title={"Rating Teratas"} Icon={Star}>
+
+          <Section title={"Paling Populer"} Icon={Flame}>
             <FlatList
               horizontal={true}
               ItemSeparatorComponent={() => <View style={{ width: 10 }}></View>}
-              data={topRatedManga}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => <TopManga anime={item} />}
+              data={popularManga}
+              keyExtractor={(_, index) => index.toString()}
+              renderItem={({ item }) => <PopularManga anime={item} />}
             />
           </Section>
 
@@ -251,8 +279,8 @@ const Home = () => {
               ItemSeparatorComponent={() => (
                 <View style={{ height: 10 }}></View>
               )}
-              data={newestManga}
-              keyExtractor={(item) => item.id.toString()}
+              data={latestManga}
+              keyExtractor={(_, index) => index.toString()}
               renderItem={({ item }) => <LatestManga anime={item} />}
             />
           </Section>

@@ -1,6 +1,7 @@
 import { BookOpen, ChevronRight, Dot, Star } from "lucide-react-native";
 import React from "react";
 import {
+  Image,
   ImageBackground,
   Pressable,
   Text,
@@ -25,29 +26,32 @@ const LatestManga = ({ anime }) => {
       <View
         style={{
           width: 150,
-          justifyContent: "center",
-          alignItems: "center",
+          height: "100%",
+          // justifyContent: "center",
+          // alignItems: "center",
           backgroundColor: "#1E5470",
         }}
       >
-        <BookOpen />
+        <Image style={{ flex: 1 }} source={{ uri: anime.image }} />
       </View>
       <View
         style={{
-          marginHorizontal: 10,
-          paddingVertical: 10,
+          width: "55%",
+          padding: 10,
           justifyContent: "space-around",
         }}
       >
         <View>
           <Text
-            numberOfLines={1}
+            numberOfLines={2}
             style={{ fontSize: 16, fontWeight: "bold", color: "#D1ECFF" }}
           >
             {anime.title}
           </Text>
+        </View>
+        <View style={{ marginVertical: 5 }}>
           <Text style={{ fontSize: 12, color: "#C8EAEC" }}>
-            Manga Romantis {anime.time}
+            {anime.category} {anime.genre}
           </Text>
         </View>
         <Pressable
@@ -61,7 +65,7 @@ const LatestManga = ({ anime }) => {
           }}
         >
           <Text style={{ fontWeight: "500", color: "1E5470" }}>
-            {anime.chapter}
+            Chapter {anime.chapter}
           </Text>
         </Pressable>
       </View>
