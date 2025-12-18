@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import { BookOpen, ChevronRight, Dot, Star } from "lucide-react-native";
 import React from "react";
 import {
@@ -10,25 +11,28 @@ import {
 } from "react-native";
 
 const LatestManga = ({ anime }) => {
-  const { width, height } = useWindowDimensions();
+  const navigation = useNavigation();
+  const { height } = useWindowDimensions();
 
   return (
-    <View
+    <Pressable
       style={{
-        height: height * 0.15,
+        flex: 1,
         borderRadius: 5,
         elevation: 5,
         flexDirection: "row",
         overflow: "hidden",
         backgroundColor: "#34729C",
       }}
+      onPress={() =>
+        navigation.navigate("Detail", {
+          slug: anime.slug,
+        })
+      }
     >
       <View
         style={{
-          width: 150,
-          height: "100%",
-          // justifyContent: "center",
-          // alignItems: "center",
+          width: 160,
           backgroundColor: "#1E5470",
         }}
       >
@@ -63,35 +67,20 @@ const LatestManga = ({ anime }) => {
             alignItems: "center",
             backgroundColor: "#6EC1D1",
           }}
+          onPress={() =>
+            navigation.navigate("Read", {
+              title: anime.title,
+              chapter: anime.chapter,
+              totalChapter: anime.chapter,
+            })
+          }
         >
           <Text style={{ fontWeight: "500", color: "1E5470" }}>
             Chapter {anime.chapter}
           </Text>
         </Pressable>
       </View>
-      {/* <View
-        style={{
-          width: 50,
-          padding: 5,
-          borderRadius: 5,
-          flexDirection: "row",
-          alignSelf: "flex-end",
-          justifyContent: "space-around",
-          alignItems: "center",
-          backgroundColor: "#1E5470",
-        }}
-      >
-        <Star size={15} color={"#6EC1D1"} fill={"#6EC1D1"} />
-        <Text style={{ fontSize: 12, fontWeight: "500", color: "#D1ECFF" }}>
-          {anime.rating}
-        </Text>
-      </View>
-      <View style={{ marginVertical: 5 }}>
-        <Text style={{ fontSize: 16, fontWeight: "bold", color: "#D1ECFF" }}>
-          {anime.title}
-        </Text>
-      </View> */}
-    </View>
+    </Pressable>
   );
 };
 

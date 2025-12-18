@@ -1,6 +1,27 @@
+import { Image } from "react-native";
 import { request } from "./request.js";
 
-const BASEURL = "http://192.168.0.102:3000";
+const BASEURL = "http://192.168.0.100:3000";
+
+const getImageRatio = (uri) =>
+  new Promise((resolve) => {
+    Image.getSize(
+      uri,
+      (width, height) => resolve(width / height),
+      (err) => {
+        console.error(err.message);
+        resolve(1);
+      }
+    );
+  });
+const getImagesRatio = async (uris) => {
+  const promises = uris.map((uri) => {
+    return getImageRatio(uri);
+  });
+
+  const ratios = await Promise.all(promises);
+  return ratios;
+};
 
 export const getMangaSortBy = async (sort) => {
   const response = await request({
@@ -12,6 +33,40 @@ export const getMangaSortBy = async (sort) => {
   });
 
   const data = response.data;
+  const mangas = data.data;
+  const images = mangas.map((manga) => manga.image);
+  const ratios = await getImagesRatio(images);
 
+  return {
+    mangas: mangas,
+    ratios: ratios,
+  };
+};
+
+export const getMangaDetail = async (slug) => {
+  const response = await request({
+    url: `${BASEURL}/manga/${slug}`,
+    method: "get",
+  });
+
+  const data = response.data;
+
+  return data.data;
+};
+
+export const getChapterImages = async (title, chapter) => {
+  const formatedTitle = title.replaceAll(/[^a-zA-Z]/g, "-");
+  const formatedChapter =
+    chapter.length === 1 ? `0${chapter}` : chapter.replace(".", "-");
+
+  const slug = `${formatedTitle}-chapter-${formatedChapter}`;
+  const clearSlug = slug.replace(/([^a-zA-Z])\1+/g, "$1");
+
+  const response = await request({
+    url: `${BASEURL}/chapter/${clearSlug}`,
+    method: "get",
+  });
+
+  const data = response.data;
   return data.data;
 };

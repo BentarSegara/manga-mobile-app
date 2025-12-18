@@ -9,7 +9,6 @@ import Profile from "../tab/profile-tab";
 
 const Tab = createBottomTabNavigator();
 const BottomTabs = () => {
-  const { width, height } = useWindowDimensions();
   return (
     <Tab.Navigator
       initialRouteName="Home"

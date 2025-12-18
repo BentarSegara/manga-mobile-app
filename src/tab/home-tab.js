@@ -48,11 +48,6 @@ const Section = ({ style, title, Icon, children }) => {
             {title}
           </Text>
         </View>
-        <Pressable>
-          <Text style={{ fontWeight: "bold", color: "#34729C" }}>
-            Lihat Semua
-          </Text>
-        </Pressable>
       </View>
       {children}
     </View>
@@ -128,74 +123,6 @@ const Home = () => {
     };
     getMangaData();
   }, []);
-  // const popularManga = [
-  //   {
-  //     id: 1,
-  //     title: "Solo Leveling",
-  //     genre: "Action, Fantasy",
-  //     views: "1.2M",
-  //     imageColor: "bg-[#34729C]",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "One Piece",
-  //     genre: "Adventure",
-  //     views: "980k",
-  //     imageColor: "bg-[#6CB1DA]",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Jujutsu Kaisen",
-  //     genre: "Supernatural",
-  //     views: "850k",
-  //     imageColor: "bg-[#1E5470]",
-  //   },
-  // ];
-
-  // const topRatedManga = [
-  //   { id: 1, title: "Frieren", rating: 4.9, imageColor: "bg-[#6EC1D1]" },
-  //   { id: 2, title: "Oshi no Ko", rating: 4.8, imageColor: "bg-[#C8EAEC]" },
-  //   { id: 3, title: "Spy x Family", rating: 4.7, imageColor: "bg-[#6CB1DA]" },
-  //   { id: 4, title: "Chainsaw Man", rating: 4.6, imageColor: "bg-[#34729C]" },
-  // ];
-
-  // const newestManga = [
-  //   {
-  //     id: 1,
-  //     title: "Kaiju No. 8",
-  //     chapter: "Chapter 98",
-  //     time: "1 jam lalu",
-  //     imageColor: "bg-[#1E5470]",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Blue Lock",
-  //     chapter: "Chapter 240",
-  //     time: "3 jam lalu",
-  //     imageColor: "bg-[#34729C]",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Sakamoto Days",
-  //     chapter: "Chapter 143",
-  //     time: "5 jam lalu",
-  //     imageColor: "bg-[#6EC1D1]",
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Dandadan",
-  //     chapter: "Chapter 120",
-  //     time: "1 hari lalu",
-  //     imageColor: "bg-[#6CB1DA]",
-  //   },
-  //   {
-  //     id: 5,
-  //     title: "Kagurabachi",
-  //     chapter: "Chapter 18",
-  //     time: "1 hari lalu",
-  //     imageColor: "bg-[#C8EAEC]",
-  //   },
-  // ];
 
   return (
     <View style={{ flex: 1, backgroundColor: "#1E5470" }}>
@@ -253,9 +180,11 @@ const Home = () => {
             <FlatList
               horizontal={true}
               ItemSeparatorComponent={() => <View style={{ width: 10 }}></View>}
-              data={topManga}
+              data={topManga.mangas}
               keyExtractor={(_, index) => index.toString()}
-              renderItem={({ item }) => <TopManga anime={item} />}
+              renderItem={({ item, index }) => (
+                <TopManga anime={item} ratio={topManga.ratios[index]} />
+              )}
             />
           </Section>
 
@@ -263,9 +192,11 @@ const Home = () => {
             <FlatList
               horizontal={true}
               ItemSeparatorComponent={() => <View style={{ width: 10 }}></View>}
-              data={popularManga}
+              data={popularManga.mangas}
               keyExtractor={(_, index) => index.toString()}
-              renderItem={({ item }) => <PopularManga anime={item} />}
+              renderItem={({ item, index }) => (
+                <PopularManga anime={item} ratio={popularManga.ratios[index]} />
+              )}
             />
           </Section>
 
@@ -279,9 +210,11 @@ const Home = () => {
               ItemSeparatorComponent={() => (
                 <View style={{ height: 10 }}></View>
               )}
-              data={latestManga}
+              data={latestManga.mangas}
               keyExtractor={(_, index) => index.toString()}
-              renderItem={({ item }) => <LatestManga anime={item} />}
+              renderItem={({ item, index }) => (
+                <LatestManga anime={item} ratio={latestManga.ratios[index]} />
+              )}
             />
           </Section>
         </ScrollView>
@@ -322,7 +255,6 @@ const styles = StyleSheet.create({
   subTitle: {
     marginBottom: 15,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
   },
 });
