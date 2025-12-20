@@ -145,7 +145,7 @@ const Read = ({ navigation, route }) => {
             {title}
           </Text>
           <Text style={{ fontSize: 12, color: "#C8EAEC" }}>
-            Ch {chapter} | {images.length} Halaman
+            Ch {currChapter} | {images.length} Halaman
           </Text>
         </View>
         <Pressable>
@@ -216,18 +216,18 @@ const Read = ({ navigation, route }) => {
             justifyContent: "space-around",
           }}
         >
-          <View style={{ alignItems: "center" }}>
+          <Pressable style={{ alignItems: "center" }} onPress={onPrev}>
             <ChevronLeft color={"#D1ECFF"} />
             <Text style={{ fontSize: 12, color: "#C8EAEC" }}>Prev</Text>
-          </View>
+          </Pressable>
           <View style={{ alignItems: "center" }}>
             <List color={"#D1ECFF"} />
             <Text style={{ fontSize: 12, color: "#C8EAEC" }}>Chapter</Text>
           </View>
-          <View style={{ alignItems: "center" }}>
+          <Pressable style={{ alignItems: "center" }} onPress={onNext}>
             <ChevronRight color={"#D1ECFF"} />
             <Text style={{ fontSize: 12, color: "#C8EAEC" }}>Next</Text>
-          </View>
+          </Pressable>
         </View>
       </View>
     </View>

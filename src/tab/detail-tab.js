@@ -395,7 +395,7 @@ const Detail = ({ navigation, route }) => {
                         flexDirection: "row",
                         justifyContent: "space-between",
                       }}
-                      onPress={() => readManga(item.toString())}
+                      onPress={() => readManga(item)}
                     >
                       <Text style={{ fontWeight: "bold", color: "#D1ECFF" }}>
                         Chapter {item}
