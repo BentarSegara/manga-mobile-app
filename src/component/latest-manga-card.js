@@ -11,24 +11,25 @@ import {
 
 const LatestManga = ({ anime }) => {
   const navigation = useNavigation();
+  const metadata = {
+    title: anime.title,
+    slug: anime.slug,
+    genre: anime.genre,
+    total_chapter: anime.chapter,
+    chapter_slug: anime.chapterSlug,
+  };
+
   return (
     <Pressable
       style={styles.container}
-      onPress={() =>
-        navigation.navigate("Detail", {
-          slug: anime.slug,
-        })
-      }
+      onPress={() => navigation.navigate("Detail", metadata)}
     >
       <View style={styles.imageContainer}>
         <Image style={{ flex: 1 }} source={{ uri: anime.image }} />
       </View>
       <View style={styles.contentContainer}>
         <View>
-          <Text
-            numberOfLines={2}
-            style={styles.title}
-          >
+          <Text numberOfLines={2} style={styles.title}>
             {anime.title}
           </Text>
         </View>
@@ -44,12 +45,11 @@ const LatestManga = ({ anime }) => {
               title: anime.title,
               chapter: anime.chapter,
               totalChapter: anime.chapter,
+              chapterSlug: anime.chapterSlug,
             })
           }
         >
-          <Text style={styles.chapterButtonText}>
-            Chapter {anime.chapter}
-          </Text>
+          <Text style={styles.chapterButtonText}>Chapter {anime.chapter}</Text>
         </Pressable>
       </View>
     </Pressable>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     color: "#94A3B8",
   },
   chapterButton: {
-    width: 100,
+    width: 110,
     padding: 8,
     borderRadius: 5,
     justifyContent: "center",

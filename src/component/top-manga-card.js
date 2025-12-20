@@ -11,16 +11,19 @@ import {
 
 const TopManga = ({ anime, ratio }) => {
   const navigation = useNavigation();
-  const { width, height } = useWindowDimensions();
+  const { height } = useWindowDimensions();
+  const metadata = {
+    title: anime.title,
+    slug: anime.slug,
+    genre: anime.genre,
+    total_chapter: anime.chapter,
+    chapter_slug: anime.chapterSlug,
+  };
 
   return (
     <Pressable
       style={[styles.container, { aspectRatio: ratio, height: height * 0.23 }]}
-      onPress={() =>
-        navigation.navigate("Detail", {
-          slug: anime.slug,
-        })
-      }
+      onPress={() => navigation.navigate("Detail", metadata)}
     >
       <ImageBackground
         style={styles.imageBackground}
@@ -28,16 +31,11 @@ const TopManga = ({ anime, ratio }) => {
         source={{ uri: anime.image }}
       >
         <View style={styles.rankContainer}>
-          <Text style={styles.rankText}>
-            # {anime.rank}
-          </Text>
+          <Text style={styles.rankText}># {anime.rank}</Text>
         </View>
         <View style={styles.infoContainer}>
           <View>
-            <Text
-              numberOfLines={1}
-              style={styles.title}
-            >
+            <Text numberOfLines={1} style={styles.title}>
               {anime.title}
             </Text>
             <Text style={{ color: "#94A3B8" }}>

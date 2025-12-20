@@ -2,7 +2,7 @@ import { Image } from "react-native";
 import { request } from "./request.js";
 
 // const BASEURL = "http://10.201.2.125:3000";
-const BASEURL = "http://192.168.0.100:3000";
+const BASEURL = "http://192.168.0.101:3000";
 
 const getImageRatio = (uri) =>
   new Promise((resolve) => {
@@ -55,17 +55,15 @@ export const getMangaDetail = async (slug) => {
   return data.data;
 };
 
-export const getChapterImages = async (title, chapter) => {
+export const getChapterImages = async (chapterSlug, chapter) => {
   const chapterString = chapter.toString();
-  const formatedTitle = title.replaceAll(/[^a-zA-Z]/g, "-");
   const formatedChapter =
-    chapter.length === 1 ? `0${chapter}` : chapterString.replace(".", "-");
-
-  const slug = `${formatedTitle}-chapter-${formatedChapter}`;
-  const clearSlug = slug.replace(/([^a-zA-Z])\1+/g, "$1");
-
+    chapterString.length === 1
+      ? `0${chapter}`
+      : chapterString.replace(".", "-");
+  const slug = `${chapterSlug}-${formatedChapter}`;
   const response = await request({
-    url: `${BASEURL}/chapter/${clearSlug}`,
+    url: `${BASEURL}/chapter/${slug}`,
     method: "get",
   });
 

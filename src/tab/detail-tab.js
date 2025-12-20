@@ -29,55 +29,48 @@ import Error from "../component/error";
 
 const Detail = ({ navigation, route }) => {
   const { width, height } = useWindowDimensions();
-  const { slug } = route.params;
+  const { title, slug, genre, total_chapter, chapter_slug } = route.params;
   const [manga, setManga] = useState({
-    title: "",
     author: "",
     status: "",
     comic: "",
-    genre: "",
     genres: [],
     synopsis: "",
-    total_chapter: "0",
-    vImage: null,
     hImage: null,
+    vImage: null,
     hImageRatio: 1,
   });
 
   const [metadata, setMetaData] = useState([
     { id: 1, data: "", title: "Jenis Komik" },
     { id: 2, data: "", title: "Status" },
-    { id: 3, data: "", title: "Konsep Cerita" },
+    { id: 3, data: genre, title: "Konsep Cerita" },
   ]);
 
-  const [chapterArray, setChapterArray] = useState([]);
+  const chapterArray = Array.from(
+    { length: 10 },
+    (_v, index) => total_chapter - index
+  );
+
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const setNewMetaData = (newdata) => {
-    const newMetdata = metadata.map((meta, index) => ({
-      ...meta,
-      ["data"]: newdata[index],
-    }));
-    setMetaData(newMetdata);
-  };
+    const newMetaData = [
+      { ...metadata[0], ["data"]: newdata[0] },
+      { ...metadata[1], ["data"]: newdata[1] },
+      { ...metadata[2] },
+    ];
 
-  const setChapter = (chapterString) => {
-    const chapterInt = parseInt(chapterString);
-    const totalChapter = Math.ceil(chapterInt);
-    const chapters = Array.from(
-      { length: 10 },
-      (_v, index) => totalChapter - index
-    );
-
-    setChapterArray(chapters);
+    setMetaData(newMetaData);
   };
 
   const readManga = (chapter) => {
     navigation.navigate("Read", {
-      title: manga.title,
+      title: title,
       chapter: chapter,
-      totalChapter: manga.total_chapter,
+      totalChapter: total_chapter,
+      chapterSlug: chapter_slug,
     });
   };
 
@@ -87,8 +80,7 @@ const Detail = ({ navigation, route }) => {
       try {
         const data = await getMangaDetail(slug);
         setManga(data);
-        setNewMetaData([data.comic, data.status, data.genre]);
-        setChapter(data.total_chapter);
+        setNewMetaData([data.comic, data.status]);
       } catch (err) {
         console.error(err.message);
         setIsError(true);
@@ -141,9 +133,7 @@ const Detail = ({ navigation, route }) => {
           </ImageBackground>
           <ScrollView style={styles.scrollViewContent}>
             <View style={{ alignSelf: "center" }}>
-              <Text style={styles.mangaTitle}>
-                {manga.title}
-              </Text>
+              <Text style={styles.mangaTitle}>{title}</Text>
               <Text style={{ textAlign: "center", color: "#94A3B8" }}>
                 {manga.author}
               </Text>
@@ -160,12 +150,8 @@ const Detail = ({ navigation, route }) => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                   <View>
-                    <Text style={styles.metadataValue}>
-                      {item.data}
-                    </Text>
-                    <Text style={styles.metadataLabel}>
-                      {item.title}
-                    </Text>
+                    <Text style={styles.metadataValue}>{item.data}</Text>
+                    <Text style={styles.metadataLabel}>{item.title}</Text>
                   </View>
                 )}
               />
@@ -173,14 +159,9 @@ const Detail = ({ navigation, route }) => {
 
             <View style={{ borderWidth: 0.2, borderColor: "#38BDF8" }}></View>
             <View style={{ marginVertical: 20, flexDirection: "row" }}>
-              <Pressable
-                style={styles.readButton}
-                onPress={() => readManga(1)}
-              >
+              <Pressable style={styles.readButton} onPress={() => readManga(1)}>
                 <Play size={18} color={"#0F172A"} fill={"#0F172A"} />
-                <Text style={styles.readButtonText}>
-                  {"  "}Mulai Baca
-                </Text>
+                <Text style={styles.readButtonText}>{"  "}Mulai Baca</Text>
               </Pressable>
               <View style={styles.favoriteButton}>
                 <Heart color={"#F8FAFC"} />
@@ -188,9 +169,7 @@ const Detail = ({ navigation, route }) => {
             </View>
             <View style={{ marginVertical: 10 }}>
               <View>
-                <Text style={styles.sectionTitle}>
-                  Sinopsis
-                </Text>
+                <Text style={styles.sectionTitle}>Sinopsis</Text>
               </View>
               <View style={{ marginVertical: 10 }}>
                 <Text numberOfLines={5} style={{ color: "#94A3B8" }}>
@@ -213,9 +192,7 @@ const Detail = ({ navigation, route }) => {
                   )}
                   renderItem={({ item }) => (
                     <View style={styles.genreTag}>
-                      <Text style={styles.genreTagText}>
-                        {item}
-                      </Text>
+                      <Text style={styles.genreTagText}>{item}</Text>
                     </View>
                   )}
                 />
@@ -225,7 +202,7 @@ const Detail = ({ navigation, route }) => {
               <View style={styles.chapterHeader}>
                 <View>
                   <Text style={styles.chapterHeaderTitle}>
-                    Chapter ({manga.total_chapter})
+                    Chapter ({total_chapter})
                   </Text>
                 </View>
                 <View style={styles.chapterSortButton}>
@@ -248,9 +225,7 @@ const Detail = ({ navigation, route }) => {
                       style={styles.chapterItem}
                       onPress={() => readManga(item)}
                     >
-                      <Text style={styles.chapterItemText}>
-                        Chapter {item}
-                      </Text>
+                      <Text style={styles.chapterItemText}>Chapter {item}</Text>
                       <Download opacity={0.8} size={18} color={"#38BDF8"} />
                     </Pressable>
                   )}

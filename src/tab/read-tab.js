@@ -22,7 +22,7 @@ import Error from "../component/error";
 
 const Read = ({ navigation, route }) => {
   const { height } = useWindowDimensions();
-  const { title, chapter, totalChapter } = route.params;
+  const { title, chapter, totalChapter, chapterSlug } = route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isMaxChapter, setIsMaxChapter] = useState(false);
@@ -65,7 +65,7 @@ const Read = ({ navigation, route }) => {
     const loadImages = async () => {
       setIsLoading(true);
       try {
-        const data = await getChapterImages(title, currChapter);
+        const data = await getChapterImages(chapterSlug, currChapter);
         setImages(data);
         getImagesRatio(data);
       } catch (err) {
@@ -86,10 +86,7 @@ const Read = ({ navigation, route }) => {
           <ArrowLeft color={"#F8FAFC"} />
         </Pressable>
         <View style={styles.headerTitleContainer}>
-          <Text
-            numberOfLines={1}
-            style={styles.headerTitle}
-          >
+          <Text numberOfLines={1} style={styles.headerTitle}>
             {title}
           </Text>
           <Text style={styles.headerSubtitle}>
@@ -129,9 +126,7 @@ const Read = ({ navigation, route }) => {
       <View style={[styles.footer, { height: height * 0.15 }]}>
         <View style={styles.progressRow}>
           <View>
-            <Text style={styles.progressText}>
-              10%
-            </Text>
+            <Text style={styles.progressText}>10%</Text>
           </View>
           <View style={styles.progressBarContainer}>
             <View
@@ -142,7 +137,14 @@ const Read = ({ navigation, route }) => {
         <View style={styles.navigationRow}>
           <Pressable style={{ alignItems: "center" }} onPress={onPrev}>
             <ChevronLeft color={isMinChapter ? "#94A3B8" : "#F8FAFC"} />
-            <Text style={{ fontSize: 12, color:isMinChapter ? "#94A3B8" : "#F8FAFC",}}>Prev</Text>
+            <Text
+              style={{
+                fontSize: 12,
+                color: isMinChapter ? "#94A3B8" : "#F8FAFC",
+              }}
+            >
+              Prev
+            </Text>
           </Pressable>
           <View style={{ alignItems: "center" }}>
             <List color={"#F8FAFC"} />
@@ -150,7 +152,14 @@ const Read = ({ navigation, route }) => {
           </View>
           <Pressable style={{ alignItems: "center" }} onPress={onNext}>
             <ChevronRight color={isMaxChapter ? "#94A3B8" : "#F8FAFC"} />
-            <Text style={{ fontSize: 12, color:isMaxChapter ? "#94A3B8" : "#F8FAFC",}}>Next</Text>
+            <Text
+              style={{
+                fontSize: 12,
+                color: isMaxChapter ? "#94A3B8" : "#F8FAFC",
+              }}
+            >
+              Next
+            </Text>
           </Pressable>
         </View>
       </View>
