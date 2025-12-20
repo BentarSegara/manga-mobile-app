@@ -1,9 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
-import { BookOpen, ChevronRight, Dot, Star } from "lucide-react-native";
 import React from "react";
 import {
   Image,
-  ImageBackground,
   Pressable,
   StyleSheet,
   Text,
@@ -13,8 +11,6 @@ import {
 
 const LatestManga = ({ anime }) => {
   const navigation = useNavigation();
-  const { height } = useWindowDimensions();
-
   return (
     <Pressable
       style={styles.container}

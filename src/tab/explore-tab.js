@@ -1,15 +1,12 @@
 import {
-  Bell,
   ChevronRight,
   Compass,
   Mic,
   Search,
-  Sun,
 } from "lucide-react-native";
 import React, { useState } from "react";
 import {
   FlatList,
-  Pressable,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -22,7 +19,7 @@ import {
 import LinearGradient from "react-native-linear-gradient";
 
 const Explore = () => {
-  const { width, height } = useWindowDimensions();
+  const {width, height } = useWindowDimensions();
   const genres = [
     "Action",
     "Adventure",

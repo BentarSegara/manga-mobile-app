@@ -1,5 +1,4 @@
 import { useNavigation } from "@react-navigation/native";
-import { Dot } from "lucide-react-native";
 import React from "react";
 import {
   ImageBackground,

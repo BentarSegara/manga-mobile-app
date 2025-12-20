@@ -3,7 +3,7 @@ import React from "react";
 import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
 
 const HistoryManga = ({ anime }) => {
-  const { width, height } = useWindowDimensions();
+  const { height } = useWindowDimensions();
   return (
     <View style={[styles.container, { height: height * 0.2 }]}>
       <View style={styles.iconContainer}>

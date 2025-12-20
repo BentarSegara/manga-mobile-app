@@ -4,11 +4,9 @@ import {
   ChevronRight,
   List,
   Settings,
-  WifiOff,
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   FlatList,
   Image,
   Pressable,
@@ -19,39 +17,16 @@ import {
   View,
 } from "react-native";
 import { getChapterImages } from "../request/request-manga";
-
-const Loading = () => (
-  <View style={styles.loadingContainer}>
-    <View style={{ marginBottom: 15 }}>
-      <Text style={styles.loadingText}>
-        Memuat Data Manga
-      </Text>
-    </View>
-    <View>
-      <ActivityIndicator size={"large"} />
-    </View>
-  </View>
-);
-
-const Error = () => (
-  <View style={styles.loadingContainer}>
-    <View style={styles.errorContent}>
-      <WifiOff size={30} color={"#38BDF8"} />
-      <Text style={styles.errorText}>
-        {"\n"} Error Pada Saat Memuat Data Manga
-      </Text>
-    </View>
-    <Pressable>
-      <Text style={styles.retryText}>Coba Lagi</Text>
-    </Pressable>
-  </View>
-);
+import Loading from "../component/loading";
+import Error from "../component/error";
 
 const Read = ({ navigation, route }) => {
-  const { width, height } = useWindowDimensions();
+  const { height } = useWindowDimensions();
   const { title, chapter, totalChapter } = route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isMaxChapter, setIsMaxChapter] = useState(false);
+  const [isMinChapter, setIsMinChapter] = useState(false);
   const [currChapter, setCurrChapter] = useState(chapter);
   const [images, setImages] = useState([]);
   const [iamgesRatio, setImagesRatio] = useState([]);
@@ -85,6 +60,8 @@ const Read = ({ navigation, route }) => {
   };
 
   useEffect(() => {
+    if (currChapter === 1) setIsMinChapter(true);
+    if (currChapter === totalChapter) setIsMaxChapter(true);
     const loadImages = async () => {
       setIsLoading(true);
       try {
@@ -164,16 +141,16 @@ const Read = ({ navigation, route }) => {
         </View>
         <View style={styles.navigationRow}>
           <Pressable style={{ alignItems: "center" }} onPress={onPrev}>
-            <ChevronLeft color={"#F8FAFC"} />
-            <Text style={styles.navButtonText}>Prev</Text>
+            <ChevronLeft color={isMinChapter ? "#94A3B8" : "#F8FAFC"} />
+            <Text style={{ fontSize: 12, color:isMinChapter ? "#94A3B8" : "#F8FAFC",}}>Prev</Text>
           </Pressable>
           <View style={{ alignItems: "center" }}>
             <List color={"#F8FAFC"} />
             <Text style={styles.navButtonText}>Chapter</Text>
           </View>
           <Pressable style={{ alignItems: "center" }} onPress={onNext}>
-            <ChevronRight color={"#F8FAFC"} />
-            <Text style={styles.navButtonText}>Next</Text>
+            <ChevronRight color={isMaxChapter ? "#94A3B8" : "#F8FAFC"} />
+            <Text style={{ fontSize: 12, color:isMaxChapter ? "#94A3B8" : "#F8FAFC",}}>Next</Text>
           </Pressable>
         </View>
       </View>
@@ -209,27 +186,6 @@ const styles = StyleSheet.create({
   headerSubtitle: {
     fontSize: 12,
     color: "#94A3B8",
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loadingText: {
-    fontWeight: "bold",
-    color: "#F8FAFC",
-  },
-  errorContent: {
-    marginBottom: 15,
-    alignItems: "center",
-  },
-  errorText: {
-    fontWeight: "bold",
-    color: "#94A3B8",
-  },
-  retryText: {
-    fontWeight: "bold",
-    color: "#F8FAFC",
   },
   imageContainer: {
     width: "100%",

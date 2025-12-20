@@ -6,14 +6,10 @@ import {
   Search,
   Star,
   Sun,
-  WifiOff,
 } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   FlatList,
-  ImageBackground,
-  Pressable,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -27,6 +23,8 @@ import PopularManga from "../component/popular-manga-card";
 import TopManga from "../component/top-manga-card";
 import LatestManga from "../component/latest-manga-card";
 import { getMangaSortBy } from "../request/request-manga";
+import Loading from "../component/loading";
+import Error from "../component/error";
 
 const Section = ({ style, title, Icon, children }) => {
   return (
@@ -46,33 +44,6 @@ const Section = ({ style, title, Icon, children }) => {
     </View>
   );
 };
-
-const Loading = () => (
-  <View style={styles.loadingContainer}>
-    <View style={{ marginBottom: 15 }}>
-      <Text style={styles.loadingText}>
-        Memuat Data Manga
-      </Text>
-    </View>
-    <View>
-      <ActivityIndicator size={"large"} />
-    </View>
-  </View>
-);
-
-const Error = () => (
-  <View style={styles.loadingContainer}>
-    <View style={styles.errorContent}>
-      <WifiOff size={30} color={"#38BDF8"} />
-      <Text style={styles.errorText}>
-        {"\n"} Error Pada Saat Memuat Data Manga
-      </Text>
-    </View>
-    <Pressable>
-      <Text style={styles.retryText}>Coba Lagi</Text>
-    </Pressable>
-  </View>
-);
 
 const Home = () => {
   const { width, height } = useWindowDimensions();
@@ -203,7 +174,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#0F172A",
   },
   header: {
-    // paddingTop: 50,
     paddingBottom: 20,
     paddingHorizontal: 20,
     justifyContent: "flex-end",
@@ -261,23 +231,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "500",
     color: "#F8FAFC",
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loadingText: {
-    fontWeight: "bold",
-    color: "#F8FAFC",
-  },
-  errorContent: {
-    marginBottom: 15,
-    alignItems: "center",
-  },
-  errorText: {
-    fontWeight: "bold",
-    color: "#94A3B8",
   },
   retryText: {
     fontWeight: "bold",

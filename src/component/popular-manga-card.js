@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { Dot, Eye, Star } from "lucide-react-native";
+import { Eye } from "lucide-react-native";
 import React from "react";
 import {
   ImageBackground,

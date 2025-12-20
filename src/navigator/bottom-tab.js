@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import Home from "../tab/home-tab";
 import { BookOpen, Compass, HomeIcon, User } from "lucide-react-native";
-import { StatusBar, StyleSheet, useWindowDimensions, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Explore from "../tab/explore-tab";
 import Library from "../tab/library-tab";
 import Profile from "../tab/profile-tab";

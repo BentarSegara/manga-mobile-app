@@ -1,12 +1,10 @@
-import { Bell, BookOpen, Search, Sun } from "lucide-react-native";
+import { Search, Sun } from "lucide-react-native";
 import React, { useState } from "react";
 import {
-  FlatList,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   useWindowDimensions,
   View,
 } from "react-native";
@@ -15,7 +13,7 @@ import HistoryManga from "../component/history-manga-card";
 import FavoritManga from "../component/favorit-manga-card";
 
 const Library = () => {
-  const { width, height } = useWindowDimensions();
+  const {height } = useWindowDimensions();
   const [menus, setMenus] = useState([
     { title: "History", focused: true },
     { title: "Favorit", focused: false },

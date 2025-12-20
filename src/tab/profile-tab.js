@@ -137,7 +137,7 @@ const Profile = () => {
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
       >
-              <View style={styles.statsContainer}>
+      <View style={styles.statsContainer}>
         <StatsCard
           icon={BookOpen}
           value={userData.stats.mangaRead}
