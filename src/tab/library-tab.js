@@ -31,58 +31,37 @@ const Library = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#1E5470" }}>
+    <View style={styles.mainContainer}>
       <LinearGradient
-        colors={["#34729C", "#1E5470"]}
+        colors={["#1E293B", "#0F172A"]}
         style={[styles.header, { height: height * 0.15 }]}
       >
         <View style={styles.title}>
           <View>
-            <Text
-              style={{ fontSize: 20, fontWeight: "bold", color: "#D1ECFF" }}
-            >
+            <Text style={styles.titleText}>
               Perpustakaan Mu
             </Text>
           </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
+          <View style={styles.iconRow}>
             <View style={[styles.iconContainer, { marginRight: 10 }]}>
-              <Search size={20} color={"#C8EAEC"} />
+              <Search size={20} color={"#94A3B8"} />
             </View>
             <View style={styles.iconContainer}>
-              <Sun color={"#C8EAEC"} />
+              <Sun color={"#94A3B8"} />
             </View>
           </View>
         </View>
-        <View
-          style={{
-            height: height * 0.05,
-            paddingHorizontal: 5,
-            borderRadius: 10,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            backgroundColor: "#34729C",
-          }}
-        >
+        <View style={[styles.tabContainer, { height: height * 0.05 }]}>
           {menus.map((menu, index) => (
             <Pressable
               key={index.toString()}
-              style={{
-                width: "30%",
-                height: "80%",
-                borderRadius: 10,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: menu.focused ? "#6CB1DA" : "#34729C",
-              }}
+              style={[
+                styles.tabButton,
+                { backgroundColor: menu.focused ? "#38BDF8" : "#1E293B" },
+              ]}
               onPress={() => setFocus(index)}
             >
-              <Text style={{ fontWeight: "500", color: "#C8EAEC" }}>
+              <Text style={{ fontWeight: "500", color: menu.focused ? "#0F172A" : "#94A3B8" }}>
                 {menu.title}
               </Text>
             </Pressable>
@@ -98,8 +77,8 @@ const Library = () => {
             <FavoritManga />
           </View>
         ) : (
-          <View style={{ paddingTop: 20, alignItems: "center" }}>
-            <Text style={{ fontWeight: "500", color: "#C8EAEC" }}>
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyStateText}>
               Belum Tersedia
             </Text>
           </View>
@@ -110,6 +89,10 @@ const Library = () => {
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: "#0F172A",
+  },
   header: {
     paddingTop: 50,
     paddingHorizontal: 20,
@@ -121,13 +104,45 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  titleText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#F8FAFC",
+  },
+  iconRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   iconContainer: {
     width: 35,
     height: 35,
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#34729C",
+    backgroundColor: "#1E293B",
+  },
+  tabContainer: {
+    paddingHorizontal: 5,
+    borderRadius: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#1E293B",
+  },
+  tabButton: {
+    width: "30%",
+    height: "80%",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyState: {
+    paddingTop: 20,
+    alignItems: "center",
+  },
+  emptyStateText: {
+    fontWeight: "500",
+    color: "#94A3B8",
   },
   searchBarContainer: {
     flexDirection: "row",
@@ -136,7 +151,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#34729C",
+    backgroundColor: "#1E293B",
   },
 });
 

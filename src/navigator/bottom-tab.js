@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import Home from "../tab/home-tab";
 import { BookOpen, Compass, HomeIcon, User } from "lucide-react-native";
-import { StatusBar, useWindowDimensions, View } from "react-native";
+import { StatusBar, StyleSheet, useWindowDimensions, View } from "react-native";
 import Explore from "../tab/explore-tab";
 import Library from "../tab/library-tab";
 import Profile from "../tab/profile-tab";
@@ -23,22 +23,20 @@ const BottomTabs = () => {
 
           return (
             <View
-              style={{
-                width: 40,
-                height: 40,
-                justifyContent: "center",
-                alignItems: "center",
-                elevation: focused ? 5 : 0,
-                borderRadius: 10,
-                backgroundColor: focused ? "#6EC1D1" : "#1E5470",
-              }}
+              style={[
+                styles.tabIconContainer,
+                {
+                  elevation: focused ? 5 : 0,
+                  backgroundColor: focused ? "#38BDF8" : "#0F172A",
+                },
+              ]}
             >
-              <Icon color={focused ? "#1E5470" : "#6CB1DA"} />
+              <Icon color={focused ? "#0F172A" : "#38BDF8"} />
             </View>
           );
         },
-        tabBarActiveTintColor: "#6EC1D1",
-        tabBarInactiveTintColor: "#1E5470",
+        tabBarActiveTintColor: "#38BDF8",
+        tabBarInactiveTintColor: "#94A3B8",
         tabBarLabelStyle: {
           marginTop: 10,
         },
@@ -46,7 +44,7 @@ const BottomTabs = () => {
           height: 90,
           paddingTop: 15,
           paddingBottom: 15,
-          backgroundColor: "#1E5470",
+          backgroundColor: "#0F172A",
         },
       })}
     >
@@ -57,5 +55,15 @@ const BottomTabs = () => {
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  tabIconContainer: {
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+  },
+});
 
 export default BottomTabs;

@@ -60,42 +60,40 @@ const Explore = () => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#1E5470" }}>
+    <View style={styles.mainContainer}>
       <StatusBar hidden={true} />
 
       <ScrollView>
         <LinearGradient
-          colors={["#34729C", "#1E5470"]}
+          colors={["#1E293B", "#0F172A"]}
           style={[styles.header, { height: height * 0.15 }]}
         >
           <View style={styles.title}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Compass color={"#6CB1DA"} />
-              <Text
-                style={{ fontSize: 20, fontWeight: "bold", color: "#D1ECFF" }}
-              >
+            <View style={styles.titleRow}>
+              <Compass color={"#38BDF8"} />
+              <Text style={styles.titleText}>
                 {" "}
                 Explore
               </Text>
             </View>
           </View>
           <View style={styles.searchBarContainer}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Search color={"#6CB1DA"} style={{ marginRight: 5 }} />
+            <View style={styles.titleRow}>
+              <Search color={"#38BDF8"} style={{ marginRight: 5 }} />
               <TextInput
                 placeholder="Cari manga favoritmu..."
-                placeholderTextColor={"#6CB1DA"}
+                placeholderTextColor={"#94A3B8"}
               />
             </View>
             <View>
-              <Mic size={20} color={"#6CB1DA"} />
+              <Mic size={20} color={"#38BDF8"} />
             </View>
           </View>
         </LinearGradient>
 
-        <View style={{ marginVertical: 10, marginHorizontal: 20 }}>
+        <View style={styles.sectionContainer}>
           <View>
-            <Text style={{ fontSize: 18, fontWeight: "500", color: "#D1ECFF" }}>
+            <Text style={styles.sectionTitle}>
               Genre
             </Text>
           </View>
@@ -109,39 +107,27 @@ const Explore = () => {
             keyExtractor={(_, index) => index.toString()}
             renderItem={(item) => (
               <TouchableOpacity
-                style={{
-                  width: width * 0.43,
-                  height: height * 0.06,
-                  borderRadius: 5,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  backgroundColor: "#34729C",
-                }}
+                style={[
+                  styles.genreButton,
+                  { width: width * 0.43, height: height * 0.06 },
+                ]}
               >
-                <Text
-                  style={{ fontSize: 16, fontWeight: "500", color: "#C8EAEC" }}
-                >
+                <Text style={styles.genreButtonText}>
                   {item.item}
                 </Text>
               </TouchableOpacity>
             )}
           />
           <TouchableOpacity
-            style={{
-              marginTop: 15,
-              padding: 10,
-              borderRadius: 50,
-              alignSelf: "center",
-              backgroundColor: "#34729C",
-            }}
+            style={styles.seeMoreButton}
             onPress={loadGenres}
           >
-            <Text style={{ color: "#C8EAEC" }}>{seeMoreButtonText}</Text>
+            <Text style={{ color: "#94A3B8" }}>{seeMoreButtonText}</Text>
           </TouchableOpacity>
         </View>
-        <View style={{ marginVertical: 10, marginHorizontal: 20 }}>
+        <View style={styles.sectionContainer}>
           <View>
-            <Text style={{ fontSize: 18, fontWeight: "500", color: "#D1ECFF" }}>
+            <Text style={styles.sectionTitle}>
               Koleksi Unggulan
             </Text>
           </View>
@@ -151,26 +137,14 @@ const Explore = () => {
             keyExtractor={(_, item) => item.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity>
-                <View
-                  style={{
-                    marginVertical: 15,
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontWeight: "500",
-                      color: "#C8EAEC",
-                    }}
-                  >
+                <View style={styles.superiorItem}>
+                  <Text style={styles.superiorItemText}>
                     {item}
                   </Text>
-                  <ChevronRight size={20} color={"#C8EAEC"} />
+                  <ChevronRight size={20} color={"#94A3B8"} />
                 </View>
                 <View
-                  style={{ borderBottomWidth: 1, borderBottomColor: "#34729C" }}
+                  style={{ borderBottomWidth: 1, borderBottomColor: "#1E293B" }}
                 ></View>
               </TouchableOpacity>
             )}
@@ -182,6 +156,10 @@ const Explore = () => {
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: "#0F172A",
+  },
   header: {
     paddingTop: 50,
     paddingHorizontal: 20,
@@ -193,13 +171,22 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  titleText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#F8FAFC",
+  },
   iconContainer: {
     width: 35,
     height: 35,
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#34729C",
+    backgroundColor: "#1E293B",
   },
   searchBarContainer: {
     flexDirection: "row",
@@ -208,7 +195,44 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#34729C",
+    backgroundColor: "#1E293B",
+  },
+  sectionContainer: {
+    marginVertical: 10,
+    marginHorizontal: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "500",
+    color: "#F8FAFC",
+  },
+  genreButton: {
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#1E293B",
+  },
+  genreButtonText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#94A3B8",
+  },
+  seeMoreButton: {
+    marginTop: 15,
+    padding: 10,
+    borderRadius: 50,
+    alignSelf: "center",
+    backgroundColor: "#1E293B",
+  },
+  superiorItem: {
+    marginVertical: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  superiorItemText: {
+    fontWeight: "500",
+    color: "#94A3B8",
   },
 });
 

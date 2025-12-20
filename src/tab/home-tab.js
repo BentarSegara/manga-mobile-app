@@ -31,19 +31,12 @@ import { getMangaSortBy } from "../request/request-manga";
 const Section = ({ style, title, Icon, children }) => {
   return (
     <View
-      style={[
-        {
-          marginTop: 20,
-          marginHorizontal: 20,
-          backgroundColor: "#1E5470",
-        },
-        style,
-      ]}
+      style={[styles.sectionContainer, style]}
     >
       <View style={styles.subTitle}>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Icon size={20} color={"#6CB1DA"} />
-          <Text style={{ fontSize: 18, fontWeight: "500", color: "#D1ECFF" }}>
+        <View style={styles.subTitleRow}>
+          <Icon size={20} color={"#38BDF8"} />
+          <Text style={styles.subTitleText}>
             {" "}
             {title}
           </Text>
@@ -55,15 +48,9 @@ const Section = ({ style, title, Icon, children }) => {
 };
 
 const Loading = () => (
-  <View
-    style={{
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  >
+  <View style={styles.loadingContainer}>
     <View style={{ marginBottom: 15 }}>
-      <Text style={{ fontWeight: "bold", color: "#D1ECFF" }}>
+      <Text style={styles.loadingText}>
         Memuat Data Manga
       </Text>
     </View>
@@ -74,21 +61,15 @@ const Loading = () => (
 );
 
 const Error = () => (
-  <View
-    style={{
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-    }}
-  >
-    <View style={{ marginBottom: 15, alignItems: "center" }}>
-      <WifiOff size={30} color={"#34729C"} />
-      <Text style={{ fontWeight: "bold", color: "#34729C" }}>
+  <View style={styles.loadingContainer}>
+    <View style={styles.errorContent}>
+      <WifiOff size={30} color={"#38BDF8"} />
+      <Text style={styles.errorText}>
         {"\n"} Error Pada Saat Memuat Data Manga
       </Text>
     </View>
     <Pressable>
-      <Text style={{ fontWeight: "bold", color: "#D1ECFF" }}>Coba Lagi</Text>
+      <Text style={styles.retryText}>Coba Lagi</Text>
     </Pressable>
   </View>
 );
@@ -125,43 +106,36 @@ const Home = () => {
   }, []);
 
   return (
-    <View style={{ flex: 1, backgroundColor: "#1E5470" }}>
+    <View style={styles.mainContainer}>
       <StatusBar hidden={true} />
 
       <LinearGradient
-        colors={["#34729C", "#1E5470"]}
+        colors={["#1E293B", "#0F172A"]}
         style={[styles.header, { height: height * 0.2 }]}
       >
         <View style={styles.title}>
           <View>
-            <Text style={{ fontWeight: "bold", color: "#D1ECFF" }}>
+            <Text style={styles.greetingText}>
               Selamat Pagi,{" "}
             </Text>
-            <Text
-              style={{ fontSize: 20, fontWeight: "bold", color: "#D1ECFF" }}
-            >
+            <Text style={styles.titleText}>
               Nakama Manga
             </Text>
           </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
+          <View style={styles.iconRow}>
             <View style={[styles.iconContainer, { marginRight: 10 }]}>
-              <Sun size={20} color={"#C8EAEC"} />
+              <Sun size={20} color={"#94A3B8"} />
             </View>
             <View style={styles.iconContainer}>
-              <Bell color={"#C8EAEC"} />
+              <Bell color={"#94A3B8"} />
             </View>
           </View>
         </View>
         <View style={styles.searchBarContainer}>
-          <Search color={"#6CB1DA"} style={{ marginRight: 5 }} />
+          <Search color={"#38BDF8"} style={{ marginRight: 5 }} />
           <TextInput
             placeholder="Cari manga favoritmu..."
-            placeholderTextColor={"#6CB1DA"}
+            placeholderTextColor={"#94A3B8"}
           />
         </View>
       </LinearGradient>
@@ -224,6 +198,10 @@ const Home = () => {
 };
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: "#0F172A",
+  },
   header: {
     // paddingTop: 50,
     paddingBottom: 20,
@@ -236,13 +214,26 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
+  greetingText: {
+    fontWeight: "bold",
+    color: "#F8FAFC",
+  },
+  titleText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#F8FAFC",
+  },
+  iconRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   iconContainer: {
     width: 35,
     height: 35,
     borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#34729C",
+    backgroundColor: "#1E293B",
   },
   searchBarContainer: {
     flexDirection: "row",
@@ -250,12 +241,47 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 15,
     alignItems: "center",
-    backgroundColor: "#34729C",
+    backgroundColor: "#1E293B",
+  },
+  sectionContainer: {
+    marginTop: 20,
+    marginHorizontal: 20,
+    backgroundColor: "#0F172A",
   },
   subTitle: {
     marginBottom: 15,
     flexDirection: "row",
     alignItems: "center",
+  },
+  subTitleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  subTitleText: {
+    fontSize: 18,
+    fontWeight: "500",
+    color: "#F8FAFC",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    fontWeight: "bold",
+    color: "#F8FAFC",
+  },
+  errorContent: {
+    marginBottom: 15,
+    alignItems: "center",
+  },
+  errorText: {
+    fontWeight: "bold",
+    color: "#94A3B8",
+  },
+  retryText: {
+    fontWeight: "bold",
+    color: "#F8FAFC",
   },
 });
 

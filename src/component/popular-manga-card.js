@@ -4,6 +4,7 @@ import React from "react";
 import {
   ImageBackground,
   Pressable,
+  StyleSheet,
   Text,
   useWindowDimensions,
   View,
@@ -23,40 +24,23 @@ const PopularManga = ({ anime, ratio }) => {
       }
     >
       <ImageBackground
-        style={{
-          flex: 1,
-          borderRadius: 15,
-          elevation: 5,
-          overflow: "hidden",
-          justifyContent: "space-between",
-          backgroundColor: "#34729C",
-        }}
+        style={styles.imageBackground}
         source={{ uri: anime.image }}
       >
-        <View
-          style={{
-            width: 70,
-            padding: 5,
-            flexDirection: "row",
-            alignSelf: "flex-end",
-            justifyContent: "space-around",
-            alignItems: "center",
-            backgroundColor: "rgba(0,0,0,0.5)",
-          }}
-        >
-          <Eye size={15} color={"#6EC1D1"} />
-          <Text style={{ fontSize: 12, fontWeight: "500", color: "#D1ECFF" }}>
+        <View style={styles.viewContainer}>
+          <Eye size={15} color={"#38BDF8"} />
+          <Text style={styles.viewText}>
             {anime.view}
           </Text>
         </View>
-        <View style={{ padding: 10, backgroundColor: "rgba(0,0,0,0.5)" }}>
+        <View style={styles.infoContainer}>
           <Text
             numberOfLines={1}
-            style={{ fontSize: 16, fontWeight: "bold", color: "#D1ECFF" }}
+            style={styles.title}
           >
             {anime.title}
           </Text>
-          <Text style={{ fontSize: 12, fontWeight: "300", color: "#D1ECFF" }}>
+          <Text style={styles.genre}>
             {anime.genre} | Chapter {anime.chapter}
           </Text>
         </View>
@@ -64,5 +48,44 @@ const PopularManga = ({ anime, ratio }) => {
     </Pressable>
   );
 };
+
+const styles = StyleSheet.create({
+  imageBackground: {
+    flex: 1,
+    borderRadius: 15,
+    elevation: 5,
+    overflow: "hidden",
+    justifyContent: "space-between",
+    backgroundColor: "#1E293B",
+  },
+  viewContainer: {
+    width: 70,
+    padding: 5,
+    flexDirection: "row",
+    alignSelf: "flex-end",
+    justifyContent: "space-around",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  viewText: {
+    fontSize: 12,
+    fontWeight: "500",
+    color: "#F8FAFC",
+  },
+  infoContainer: {
+    padding: 10,
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#F8FAFC",
+  },
+  genre: {
+    fontSize: 12,
+    fontWeight: "300",
+    color: "#94A3B8",
+  },
+});
 
 export default PopularManga;
