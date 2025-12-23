@@ -27,13 +27,17 @@ import {
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 
-const MenuItem = ({ icon: Icon, title, subtitle, onPress, showChevron = true, rightElement }) => {
+const MenuItem = ({
+  icon: Icon,
+  title,
+  subtitle,
+  onPress,
+  showChevron = true,
+  rightElement,
+}) => {
   return (
     <Pressable
-      style={({ pressed }) => [
-        styles.menuItem,
-        { opacity: pressed ? 0.7 : 1 },
-      ]}
+      style={({ pressed }) => [styles.menuItem, { opacity: pressed ? 0.7 : 1 }]}
       onPress={onPress}
     >
       <View style={styles.menuItemLeft}>
@@ -73,7 +77,7 @@ const Section = ({ title, children }) => {
   );
 };
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
   const { width, height } = useWindowDimensions();
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
@@ -137,26 +141,26 @@ const Profile = () => {
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
       >
-      <View style={styles.statsContainer}>
-        <StatsCard
-          icon={BookOpen}
-          value={userData.stats.mangaRead}
-          label="Manga Dibaca"
-          color="#38BDF8"
-        />
-        <StatsCard
-          icon={Heart}
-          value={userData.stats.favorites}
-          label="Favorit"
-          color="#F87171"
-        />
-        <StatsCard
-          icon={Download}
-          value={userData.stats.downloads}
-          label="Unduhan"
-          color="#4ADE80"
-        />
-      </View>
+        <View style={styles.statsContainer}>
+          <StatsCard
+            icon={BookOpen}
+            value={userData.stats.mangaRead}
+            label="Manga Dibaca"
+            color="#38BDF8"
+          />
+          <StatsCard
+            icon={Heart}
+            value={userData.stats.favorites}
+            label="Favorit"
+            color="#F87171"
+          />
+          <StatsCard
+            icon={Download}
+            value={userData.stats.downloads}
+            label="Unduhan"
+            color="#4ADE80"
+          />
+        </View>
 
         {/* Reading Section */}
         <Section title="Aktivitas Membaca">
@@ -243,7 +247,9 @@ const Profile = () => {
             styles.logoutButton,
             { opacity: pressed ? 0.8 : 1 },
           ]}
-          onPress={() => {}}
+          onPress={() => {
+            navigation.navigate("Login");
+          }}
         >
           <LogOut size={20} color={"#F87171"} />
           <Text style={styles.logoutText}>Keluar</Text>
@@ -251,7 +257,9 @@ const Profile = () => {
 
         <View style={styles.versionContainer}>
           <Text style={styles.versionText}>Komiku v1.0.0</Text>
-          <Text style={styles.copyrightText}>© 2024 Komiku. All rights reserved.</Text>
+          <Text style={styles.copyrightText}>
+            © 2024 Komiku. All rights reserved.
+          </Text>
         </View>
       </ScrollView>
     </View>
@@ -264,7 +272,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0F172A",
   },
   header: {
-    paddingTop: 50,
+    paddingTop: 30,
     paddingHorizontal: 20,
   },
   topBar: {
