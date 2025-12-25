@@ -1,4 +1,4 @@
-# 📚 Komiku - Manga Reading Mobile App
+# 📚 NakaManga - Manga Reading Mobile App
 
 <p align="center">
   <img src="./assets/icon.png" alt="Komiku Logo" width="120" height="120">
