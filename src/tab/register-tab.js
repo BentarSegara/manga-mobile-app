@@ -171,7 +171,7 @@ const Register = ({ navigation }) => {
             <Text
               style={{ fontSize: 12, fontWeight: "bold", color: "#94A3B8" }}
             >
-              NAMA LENGKAP
+              USERNAME
             </Text>
           </View>
           <View

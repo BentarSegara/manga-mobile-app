@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import {
   changeUserPassword,
   confirmUserEmail,
+  deleteUser,
   loginUser,
   registerUser,
 } from "../request/request-user";
@@ -74,6 +75,11 @@ export const AuthProvider = ({ children }) => {
     if (errors) throw errors;
   };
 
+  const deleteAccount = async (id) => {
+    const { errors } = await deleteUser(id);
+    if (errors) throw errors;
+  };
+
   useEffect(() => {
     const checkLogin = async () => {
       try {
@@ -99,6 +105,7 @@ export const AuthProvider = ({ children }) => {
         register,
         confirmEmail,
         changePassword,
+        deleteAccount,
         userInfo,
         userToken,
       }}

@@ -46,3 +46,14 @@ export const changeUserPassword = async ({ confirmedEmail, passwords }) => {
 
   return response.data;
 };
+
+export const deleteUser = async (id) => {
+  console.log(id);
+
+  const response = await request({
+    url: `${BASEURL}/${id}/delete`,
+    method: "delete",
+  });
+
+  return response.data;
+};

@@ -2,6 +2,7 @@ import {
   Bell,
   BookOpen,
   ChevronRight,
+  CircleQuestionMarkIcon,
   Download,
   Heart,
   HelpCircle,
@@ -13,6 +14,7 @@ import {
   Share2,
   Star,
   Sun,
+  TrashIcon,
   User,
 } from "lucide-react-native";
 import React, { useState } from "react";
@@ -82,11 +84,12 @@ const Section = ({ title, children }) => {
 };
 
 const Profile = ({ navigation }) => {
-  const { userInfo, userToken, logout } = useAuth();
+  const { userInfo, userToken, logout, deleteAccount } = useAuth();
   const { width, height } = useWindowDimensions();
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const userData = {
     avatar: null,
@@ -104,15 +107,27 @@ const Profile = ({ navigation }) => {
       } catch (err) {
         console.error(err.message);
       } finally {
-        setIsLoading(false);
       }
     }
     navigation.navigate("Login");
   };
 
+  const onDeletePress = async () => {
+    if (userToken) {
+      setIsLoading(true);
+      try {
+        await deleteAccount(userInfo.id);
+      } catch (err) {
+        console.error(err.message);
+      } finally {
+        navigation.replace("Login");
+      }
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Modal visible={isLoading} transparent={true}>
+      <Modal visible={modalVisible} transparent={true}>
         <View
           style={{
             flex: 1,
@@ -120,23 +135,65 @@ const Profile = ({ navigation }) => {
             backgroundColor: "rgba(0, 0, 0, 0.5)",
           }}
         >
-          <View
-            style={{
-              width: "80%",
-              height: "7%",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignSelf: "center",
-              alignItems: "center",
-              backgroundColor: "#0F172A",
-            }}
-          >
-            <ActivityIndicator size={"small"} />
-            <Text style={{ fontSize: 16, color: "#94A3B8" }}>
-              {"  "}
-              Logout User
-            </Text>
-          </View>
+          {isLoading ? (
+            <View
+              style={{
+                width: "80%",
+                height: "7%",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignSelf: "center",
+                alignItems: "center",
+                backgroundColor: "#0F172A",
+              }}
+            >
+              <ActivityIndicator size={"small"} />
+              <Text style={{ fontSize: 16, color: "#94A3B8" }}>
+                {"  "}
+                Menghapus Akun
+              </Text>
+            </View>
+          ) : (
+            <View
+              style={{
+                width: "80%",
+                height: "15%",
+                paddingVertical: 10,
+                justifyContent: "space-between",
+                alignSelf: "center",
+                backgroundColor: "#0F172A",
+              }}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignSelf: "center",
+                }}
+              >
+                <Text style={{ fontSize: 18, color: "#94A3B8" }}>
+                  {"  "}Yakin ingin menghapus akan anda ?
+                </Text>
+              </View>
+              <View
+                style={{
+                  padding: 10,
+                  borderTopWidth: 1,
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  borderTopColor: "#1E293B",
+                }}
+              >
+                <Pressable onPress={() => setModalVisible(false)}>
+                  <Text style={{ fontSize: 16, color: "#94A3B8" }}>Tidak</Text>
+                </Pressable>
+                <View style={{ width: 1, backgroundColor: "#1E293B" }} />
+                <Pressable onPress={onDeletePress}>
+                  <Text style={{ fontSize: 16, color: "#94A3B8" }}>Ya</Text>
+                </Pressable>
+              </View>
+            </View>
+          )}
         </View>
       </Modal>
       <LinearGradient
@@ -272,16 +329,18 @@ const Profile = ({ navigation }) => {
             onPress={() => {}}
           />
           <MenuItem
-            icon={HelpCircle}
-            title="Bantuan & FAQ"
-            subtitle="Pusat bantuan"
-            onPress={() => {}}
-          />
-          <MenuItem
             icon={Star}
             title="Beri Rating"
             subtitle="Rating di Play Store"
             onPress={() => {}}
+          />
+          <MenuItem
+            icon={TrashIcon}
+            title="Hapus Akun"
+            subtitle="Hapus akun anda secara permanen"
+            onPress={() => {
+              setModalVisible(true);
+            }}
           />
         </Section>
 
@@ -326,7 +385,7 @@ const Profile = ({ navigation }) => {
         <View style={styles.versionContainer}>
           <Text style={styles.versionText}>Komiku v1.0.0</Text>
           <Text style={styles.copyrightText}>
-            © 2024 Komiku. All rights reserved.
+            © 2024 Komiku. Build by Bentar Segara Buana
           </Text>
         </View>
       </ScrollView>
