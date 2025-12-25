@@ -220,9 +220,7 @@ Aplikasi ini terhubung ke backend API dengan endpoint berikut:
 ---
 
 ## 📱 Screenshots
-
-> *Tambahkan screenshot aplikasi di sini*
-
+>
 ---
 
 ## 🗺️ Navigasi Aplikasi
