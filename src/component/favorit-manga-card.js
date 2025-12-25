@@ -6,21 +6,14 @@ const FavoritManga = () => {
   const { width, height } = useWindowDimensions();
   return (
     <View
-      style={[
-        styles.container,
-        { width: width * 0.45, height: height * 0.25 },
-      ]}
+      style={[styles.container, { width: width * 0.43, height: height * 0.3 }]}
     >
       <View style={styles.iconContainer}>
         <BookOpen size={30} color={"#0F172A"} />
       </View>
       <View style={styles.infoContainer}>
-        <Text style={styles.title}>
-          One Piece
-        </Text>
-        <Text style={styles.genre}>
-          Genre: Action
-        </Text>
+        <Text style={styles.title}>One Piece</Text>
+        <Text style={styles.genre}>Genre: Action</Text>
       </View>
     </View>
   );
@@ -34,7 +27,7 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     width: "90%",
-    height: "60%",
+    height: "70%",
     margin: 10,
     borderRadius: 10,
     justifyContent: "center",

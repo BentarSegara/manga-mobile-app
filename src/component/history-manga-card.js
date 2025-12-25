@@ -11,9 +11,7 @@ const HistoryManga = ({ anime }) => {
       </View>
       <View style={styles.contentContainer}>
         <View>
-          <Text style={styles.title}>
-            Solo Leveling
-          </Text>
+          <Text style={styles.title}>Solo Leveling</Text>
           <Text style={{ color: "#94A3B8" }}>Terakhir dibaca: 2 jam lalu</Text>
         </View>
         <View>
@@ -34,7 +32,6 @@ const HistoryManga = ({ anime }) => {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 20,
     padding: 10,
     borderRadius: 10,
     flexDirection: "row",

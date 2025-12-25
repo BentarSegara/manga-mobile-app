@@ -10,6 +10,8 @@ import {
 } from "lucide-react-native";
 import React, { useState } from "react";
 import {
+  ActivityIndicator,
+  Modal,
   Pressable,
   StatusBar,
   Text,
@@ -19,15 +21,45 @@ import {
   View,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import { useAuth } from "../context/auth-context";
 
 const Login = ({ navigation }) => {
+  const { login } = useAuth();
   const [passVisible, setPassVisible] = useState(false);
   const [PassIcon, setPassIcon] = useState(Eye);
+  const [isLoading, setIsLoading] = useState(false);
+  const [userInput, setUserInput] = useState({
+    email: "",
+    password: "",
+  });
+  const [validationErrors, setValidationErrors] = useState({
+    email: "",
+    password: "",
+  });
 
   const seePasword = () => {
     if (!passVisible) setPassIcon(EyeClosed);
     else setPassIcon(Eye);
     setPassVisible(!passVisible);
+  };
+
+  const onInputUser = (field, newText) => {
+    setUserInput({ ...userInput, [field]: newText });
+  };
+
+  const onLoginPress = async () => {
+    setIsLoading(true);
+    try {
+      await login(userInput);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "BottomTabs" }],
+      });
+    } catch (err) {
+      setValidationErrors(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -40,7 +72,33 @@ const Login = ({ navigation }) => {
       }}
     >
       <StatusBar hidden={true} />
-
+      <Modal visible={isLoading} transparent={true}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          <View
+            style={{
+              width: "80%",
+              height: "7%",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignSelf: "center",
+              alignItems: "center",
+              backgroundColor: "#0F172A",
+            }}
+          >
+            <ActivityIndicator size={"small"} />
+            <Text style={{ fontSize: 16, color: "#94A3B8" }}>
+              {"  "}
+              Login User
+            </Text>
+          </View>
+        </View>
+      </Modal>
       <View>
         <Text style={{ fontSize: 25, fontWeight: "bold", color: "#FFFFFF" }}>
           Welcome Back!
@@ -53,11 +111,15 @@ const Login = ({ navigation }) => {
       <View style={{ marginTop: 50, marginBottom: 25 }}>
         <View>
           <View>
-            <Text style={{ fontWeight: "bold", color: "#94A3B8" }}>Email</Text>
+            <Text
+              style={{ fontSize: 12, fontWeight: "bold", color: "#94A3B8" }}
+            >
+              EMAIL
+            </Text>
           </View>
           <View
             style={{
-              marginTop: 10,
+              marginTop: 5,
               paddingVertical: 5,
               borderWidth: 0.2,
               paddingHorizontal: 10,
@@ -70,18 +132,29 @@ const Login = ({ navigation }) => {
           >
             <Mail size={20} color={"#94A3B8"} style={{ marginRight: 5 }} />
             <TextInput
+              style={{ flex: 1, color: "#FFFFFF" }}
+              keyboardType="email-address"
+              value={userInput.email}
+              onChangeText={(newText) => onInputUser("email", newText)}
               placeholder="nama@gmail.com"
               placeholderTextColor={"#94A3B8"}
             />
           </View>
+          {validationErrors.email && (
+            <Text style={{ fontSize: 12, fontWeight: "500", color: "#FF0033" }}>
+              *{validationErrors.email}
+            </Text>
+          )}
         </View>
 
         <View style={{ marginVertical: 15 }}>
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <Text style={{ fontWeight: "bold", color: "#94A3B8" }}>
-              Password
+            <Text
+              style={{ fontSize: 12, fontWeight: "bold", color: "#94A3B8" }}
+            >
+              PASSWORD
             </Text>
             <Pressable>
               <Text style={{ fontWeight: "500", color: "#38BDF8" }}>
@@ -91,6 +164,7 @@ const Login = ({ navigation }) => {
           </View>
           <View
             style={{
+              marginTop: 5,
               paddingVertical: 5,
               paddingHorizontal: 10,
               borderWidth: 0.2,
@@ -103,16 +177,23 @@ const Login = ({ navigation }) => {
           >
             <Lock size={20} color={"#94A3B8"} style={{ marginRight: 5 }} />
             <TextInput
-              style={{ flex: 1 }}
+              style={{ flex: 1, color: "#FFFFFF" }}
+              value={userInput.password}
+              onChangeText={(newText) => onInputUser("password", newText)}
               textContentType="password"
               secureTextEntry={!passVisible}
-              placeholder="******"
+              placeholder="Minimal 8 karakter"
               placeholderTextColor={"#94A3B8"}
             />
             <Pressable onPress={seePasword}>
               <PassIcon size={20} color={"#94A3B8"} />
             </Pressable>
           </View>
+          {validationErrors.password && (
+            <Text style={{ fontSize: 12, fontWeight: "500", color: "#FF0033" }}>
+              *{validationErrors.password}
+            </Text>
+          )}
         </View>
         <TouchableOpacity
           style={{
@@ -123,7 +204,7 @@ const Login = ({ navigation }) => {
             alignItems: "center",
             backgroundColor: "#FFFFFF",
           }}
-          onPress={() => navigation.navigate("BottomTabs")}
+          onPress={onLoginPress}
         >
           <Text style={{ fontSize: 16, fontWeight: "bold", color: "#0F172A" }}>
             Masuk{" "}

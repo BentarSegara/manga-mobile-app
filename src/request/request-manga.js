@@ -2,7 +2,7 @@ import { Image } from "react-native";
 import { request } from "./request.js";
 
 // const BASEURL = "http://10.201.2.125:3000";
-const BASEURL = "http://192.168.0.101:3000";
+const BASEURL = "http://192.168.0.102:3000/manga";
 
 const getImageRatio = (uri) =>
   new Promise((resolve) => {
@@ -26,7 +26,7 @@ const getImagesRatio = async (uris) => {
 
 export const getMangaSortBy = async (sort) => {
   const response = await request({
-    url: `${BASEURL}/manga`,
+    url: `${BASEURL}`,
     params: {
       sort: sort,
     },
@@ -46,7 +46,7 @@ export const getMangaSortBy = async (sort) => {
 
 export const getMangaDetail = async (slug) => {
   const response = await request({
-    url: `${BASEURL}/manga/${slug}`,
+    url: `${BASEURL}/${slug}`,
     method: "get",
   });
 

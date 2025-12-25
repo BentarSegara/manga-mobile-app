@@ -25,19 +25,15 @@ import LatestManga from "../component/latest-manga-card";
 import { getMangaSortBy } from "../request/request-manga";
 import Loading from "../component/loading";
 import Error from "../component/error";
+import { useAuth } from "../context/auth-context";
 
 const Section = ({ style, title, Icon, children }) => {
   return (
-    <View
-      style={[styles.sectionContainer, style]}
-    >
+    <View style={[styles.sectionContainer, style]}>
       <View style={styles.subTitle}>
         <View style={styles.subTitleRow}>
           <Icon size={20} color={"#38BDF8"} />
-          <Text style={styles.subTitleText}>
-            {" "}
-            {title}
-          </Text>
+          <Text style={styles.subTitleText}> {title}</Text>
         </View>
       </View>
       {children}
@@ -46,6 +42,7 @@ const Section = ({ style, title, Icon, children }) => {
 };
 
 const Home = () => {
+  const { userInfo } = useAuth();
   const { width, height } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -53,26 +50,27 @@ const Home = () => {
   const [popularManga, setPopularManga] = useState([]);
   const [latestManga, setLatestManga] = useState([]);
 
-  useEffect(() => {
-    const getMangaData = async () => {
-      setIsLoading(true);
-      try {
-        const data = await Promise.all([
-          getMangaSortBy("top"),
-          getMangaSortBy("popular"),
-          getMangaSortBy("latest"),
-        ]);
+  const getMangaData = async () => {
+    setIsLoading(true);
+    try {
+      const data = await Promise.all([
+        getMangaSortBy("top"),
+        getMangaSortBy("popular"),
+        getMangaSortBy("latest"),
+      ]);
 
-        setTopManga(data[0]);
-        setPopularManga(data[1]);
-        setLatestManga(data[2]);
-      } catch (err) {
-        console.error(err);
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      setTopManga(data[0]);
+      setPopularManga(data[1]);
+      setLatestManga(data[2]);
+    } catch (err) {
+      console.error(err);
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
     getMangaData();
   }, []);
 
@@ -86,11 +84,9 @@ const Home = () => {
       >
         <View style={styles.title}>
           <View>
-            <Text style={styles.greetingText}>
-              Selamat Pagi,{" "}
-            </Text>
+            <Text style={styles.greetingText}>Selamat Pagi, </Text>
             <Text style={styles.titleText}>
-              Nakama Manga
+              {userInfo.name ?? "Nakama Manga"}
             </Text>
           </View>
           <View style={styles.iconRow}>
@@ -114,7 +110,7 @@ const Home = () => {
       {isLoading ? (
         <Loading />
       ) : isError ? (
-        <Error />
+        <Error onTryAgain={getMangaData} />
       ) : (
         <ScrollView>
           <Section

@@ -59,22 +59,23 @@ const Read = ({ navigation, route }) => {
     if (currChapter < totalChapter) setCurrChapter(currChapter + 1);
   };
 
+  const loadImages = async () => {
+    setIsLoading(true);
+    try {
+      const data = await getChapterImages(chapterSlug, currChapter);
+      setImages(data);
+      getImagesRatio(data);
+    } catch (err) {
+      console.error(err.message);
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (currChapter === 1) setIsMinChapter(true);
     if (currChapter === totalChapter) setIsMaxChapter(true);
-    const loadImages = async () => {
-      setIsLoading(true);
-      try {
-        const data = await getChapterImages(chapterSlug, currChapter);
-        setImages(data);
-        getImagesRatio(data);
-      } catch (err) {
-        console.error(err.message);
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     loadImages();
   }, [currChapter]);
 
@@ -100,7 +101,7 @@ const Read = ({ navigation, route }) => {
       {isLoading ? (
         <Loading />
       ) : isError ? (
-        <Error />
+        <Error onTryAgain={loadImages} />
       ) : (
         <View style={{ flex: 1, margin: 10 }}>
           <FlatList

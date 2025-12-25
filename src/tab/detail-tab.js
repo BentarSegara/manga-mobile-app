@@ -74,20 +74,21 @@ const Detail = ({ navigation, route }) => {
     });
   };
 
+  const loadData = async () => {
+    setIsLoading(true);
+    try {
+      const data = await getMangaDetail(slug);
+      setManga(data);
+      setNewMetaData([data.comic, data.status]);
+    } catch (err) {
+      console.error(err.message);
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadData = async () => {
-      setIsLoading(true);
-      try {
-        const data = await getMangaDetail(slug);
-        setManga(data);
-        setNewMetaData([data.comic, data.status]);
-      } catch (err) {
-        console.error(err.message);
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     loadData();
   }, []);
 
@@ -97,7 +98,7 @@ const Detail = ({ navigation, route }) => {
       {isLoading ? (
         <Loading />
       ) : isError ? (
-        <Error />
+        <Error onTryAgain={loadData} />
       ) : (
         <>
           <ImageBackground

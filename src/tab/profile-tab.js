@@ -6,6 +6,7 @@ import {
   Heart,
   HelpCircle,
   History,
+  LogIn,
   LogOut,
   Moon,
   Settings,
@@ -16,7 +17,9 @@ import {
 } from "lucide-react-native";
 import React, { useState } from "react";
 import {
+  ActivityIndicator,
   Image,
+  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -26,6 +29,7 @@ import {
   View,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import { useAuth } from "../context/auth-context";
 
 const MenuItem = ({
   icon: Icon,
@@ -78,15 +82,14 @@ const Section = ({ title, children }) => {
 };
 
 const Profile = ({ navigation }) => {
+  const { userInfo, userToken, logout } = useAuth();
   const { width, height } = useWindowDimensions();
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const userData = {
-    name: "Nakama Manga",
-    email: "nakama@komiku.id",
     avatar: null,
-    memberSince: "Desember 2024",
     stats: {
       mangaRead: 127,
       favorites: 45,
@@ -94,8 +97,48 @@ const Profile = ({ navigation }) => {
     },
   };
 
+  const onLogoutPress = async () => {
+    if (userToken) {
+      try {
+        await logout();
+      } catch (err) {
+        console.error(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    navigation.navigate("Login");
+  };
+
   return (
     <View style={styles.container}>
+      <Modal visible={isLoading} transparent={true}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          <View
+            style={{
+              width: "80%",
+              height: "7%",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignSelf: "center",
+              alignItems: "center",
+              backgroundColor: "#0F172A",
+            }}
+          >
+            <ActivityIndicator size={"small"} />
+            <Text style={{ fontSize: 16, color: "#94A3B8" }}>
+              {"  "}
+              Logout User
+            </Text>
+          </View>
+        </View>
+      </Modal>
       <LinearGradient
         colors={["#1E293B", "#0F172A"]}
         style={[styles.header, { height: height * 0.32 }]}
@@ -126,8 +169,8 @@ const Profile = ({ navigation }) => {
             )}
             <View style={styles.onlineIndicator} />
           </View>
-          <Text style={styles.userName}>{userData.name}</Text>
-          <Text style={styles.userEmail}>{userData.email}</Text>
+          <Text style={styles.userName}>{userInfo.name ?? "Nakama Manga"}</Text>
+          <Text style={styles.userEmail}>{userInfo.email ?? "Guest"}</Text>
           {/* <View style={styles.memberBadge}>
             <Star size={14} color={"#FBBF24"} />
             <Text style={styles.memberText}>
@@ -242,18 +285,43 @@ const Profile = ({ navigation }) => {
           />
         </Section>
 
-        <Pressable
-          style={({ pressed }) => [
-            styles.logoutButton,
-            { opacity: pressed ? 0.8 : 1 },
-          ]}
-          onPress={() => {
-            navigation.navigate("Login");
-          }}
-        >
-          <LogOut size={20} color={"#F87171"} />
-          <Text style={styles.logoutText}>Keluar</Text>
-        </Pressable>
+        {userToken ? (
+          <Pressable
+            style={({ pressed }) => [
+              [
+                styles.logoutButton,
+                {
+                  backgroundColor: "rgba(248, 113, 113, 0.1)",
+                  borderColor: "rgba(248, 113, 113, 0.3)",
+                },
+              ],
+              { opacity: pressed ? 0.8 : 1 },
+            ]}
+            onPress={onLogoutPress}
+          >
+            <LogOut size={20} color={"#F87171"} />
+            <Text style={[styles.logoutText, { color: "#F87171" }]}>
+              {"Keluar"}
+            </Text>
+          </Pressable>
+        ) : (
+          <Pressable
+            style={({ pressed }) => [
+              [
+                styles.logoutButton,
+                {
+                  backgroundColor: "#FFFFFF",
+                  borderColor: "#FFFFFF",
+                },
+              ],
+              { opacity: pressed ? 0.8 : 1 },
+            ]}
+            onPress={onLogoutPress}
+          >
+            <LogIn size={20} />
+            <Text style={styles.logoutText}>{"Masuk"}</Text>
+          </Pressable>
+        )}
 
         <View style={styles.versionContainer}>
           <Text style={styles.versionText}>Komiku v1.0.0</Text>
@@ -443,13 +511,11 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: "rgba(248, 113, 113, 0.3)",
   },
   logoutText: {
     marginLeft: 8,
     fontSize: 16,
     fontWeight: "600",
-    color: "#F87171",
   },
   versionContainer: {
     alignItems: "center",

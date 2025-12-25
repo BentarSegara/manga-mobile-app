@@ -5,15 +5,17 @@ import Detail from "../tab/detail-tab";
 import Read from "../tab/read-tab";
 import Login from "../tab/login-tab";
 import Register from "../tab/register-tab";
+import SplashScreen from "../tab/splash-tab";
 
 const Stack = createNativeStackNavigator();
 
 const NativeStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="BottomTabs"
+      initialRouteName="SplashScreen"
       screenOptions={{ headerShown: false }}
     >
+      <Stack.Screen name="SplashScreen" component={SplashScreen} />
       <Stack.Screen name="BottomTabs" component={BottomTabs} />
       <Stack.Screen name="Detail" component={Detail} />
       <Stack.Screen name="Read" component={Read} />

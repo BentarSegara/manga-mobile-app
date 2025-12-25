@@ -9,7 +9,10 @@ export const request = async ({ url, headers, params, data, method }) => {
     data: data,
   };
   try {
-    const response = await axios(config);
+    const response = await axios({
+      ...config,
+      validateStatus: (status) => status < 500,
+    });
     return {
       data: response.data,
       statusCode: response.status,

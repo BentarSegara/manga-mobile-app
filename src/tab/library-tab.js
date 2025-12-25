@@ -1,6 +1,7 @@
 import { Search, Sun } from "lucide-react-native";
 import React, { useState } from "react";
 import {
+  FlatList,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -13,12 +14,15 @@ import HistoryManga from "../component/history-manga-card";
 import FavoritManga from "../component/favorit-manga-card";
 
 const Library = () => {
-  const {height } = useWindowDimensions();
+  const { height } = useWindowDimensions();
   const [menus, setMenus] = useState([
     { title: "History", focused: true },
     { title: "Favorit", focused: false },
     { title: "Unduhan", focused: false },
   ]);
+
+  const idArray = Array.from({ length: 10 }, (_, k) => k + 1);
+  const favArray = Array.from({ length: 10 }, (_, k) => k + 1);
 
   const setFocus = (idx) => {
     const newMenus = menus.map((menu, index) => {
@@ -36,9 +40,7 @@ const Library = () => {
       >
         <View style={styles.title}>
           <View>
-            <Text style={styles.titleText}>
-              Perpustakaan Mu
-            </Text>
+            <Text style={styles.titleText}>Perpustakaan Mu</Text>
           </View>
           <View style={styles.iconRow}>
             <View style={[styles.iconContainer, { marginRight: 10 }]}>
@@ -59,29 +61,44 @@ const Library = () => {
               ]}
               onPress={() => setFocus(index)}
             >
-              <Text style={{ fontWeight: "500", color: menu.focused ? "#0F172A" : "#94A3B8" }}>
+              <Text
+                style={{
+                  fontWeight: "500",
+                  color: menu.focused ? "#0F172A" : "#94A3B8",
+                }}
+              >
                 {menu.title}
               </Text>
             </Pressable>
           ))}
         </View>
       </LinearGradient>
-      <ScrollView>
-        {menus[0].focused ? (
-          <HistoryManga />
-        ) : menus[1].focused ? (
-          <View style={{ margin: 20, flexDirection: "row" }}>
-            <FavoritManga />
-            <FavoritManga />
-          </View>
-        ) : (
-          <View style={styles.emptyState}>
-            <Text style={styles.emptyStateText}>
-              Belum Tersedia
-            </Text>
-          </View>
-        )}
-      </ScrollView>
+
+      {menus[0].focused ? (
+        <FlatList
+          style={{ marginTop: 10, marginBottom: 12, marginHorizontal: 20 }}
+          key={0}
+          data={favArray}
+          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+          keyExtractor={(item) => item.toString()}
+          renderItem={() => <HistoryManga />}
+        />
+      ) : menus[1].focused ? (
+        <FlatList
+          style={{ marginTop: 10, marginBottom: 1, marginHorizontal: 20 }}
+          key={1}
+          numColumns={2}
+          columnWrapperStyle={{ justifyContent: "space-between" }}
+          ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+          data={idArray}
+          keyExtractor={(item) => item.toString()}
+          renderItem={({ item }) => <FavoritManga />}
+        />
+      ) : (
+        <View style={styles.emptyState}>
+          <Text style={styles.emptyStateText}>Belum Tersedia</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -89,6 +106,8 @@ const Library = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    // paddingVertical: 50,
+    // paddingHorizontal: 20,
     backgroundColor: "#0F172A",
   },
   header: {

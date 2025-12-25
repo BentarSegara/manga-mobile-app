@@ -1,5 +1,7 @@
 import {
   ArrowRight,
+  Check,
+  CheckCircle,
   Chrome,
   Eye,
   EyeClosed,
@@ -11,24 +13,57 @@ import {
 } from "lucide-react-native";
 import React, { useState } from "react";
 import {
+  ActivityIndicator,
+  Modal,
   Pressable,
   StatusBar,
   Text,
   TextInput,
   TouchableOpacity,
-  useWindowDimensions,
   View,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import { useAuth } from "../context/auth-context";
 
-const Login = ({ navigation }) => {
+const Register = ({ navigation }) => {
+  const { register } = useAuth();
   const [passVisible, setPassVisible] = useState(false);
   const [PassIcon, setPassIcon] = useState(Eye);
+  const [isLoading, setIsLoading] = useState(false);
+  const [userInput, setUserInput] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [validationErrors, setValidationErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const onInputUser = (field, newText) => {
+    setUserInput({ ...userInput, [field]: newText });
+  };
 
   const seePasword = () => {
     if (!passVisible) setPassIcon(EyeClosed);
     else setPassIcon(Eye);
     setPassVisible(!passVisible);
+  };
+
+  const onRegisterPress = async () => {
+    setModalVisible(true);
+    setIsLoading(true);
+    try {
+      await register(userInput);
+    } catch (err) {
+      setValidationErrors(err);
+      setModalVisible(false);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -41,7 +76,86 @@ const Login = ({ navigation }) => {
       }}
     >
       <StatusBar hidden={true} />
-
+      <Modal visible={modalVisible} transparent={true}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          }}
+        >
+          {isLoading ? (
+            <View
+              style={{
+                width: "80%",
+                height: "7%",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignSelf: "center",
+                alignItems: "center",
+                backgroundColor: "#0F172A",
+              }}
+            >
+              <ActivityIndicator size={"small"} />
+              <Text style={{ fontSize: 16, color: "#94A3B8" }}>
+                {"  "}
+                Memproses Registrasi
+              </Text>
+            </View>
+          ) : (
+            <View
+              style={{
+                width: "80%",
+                height: "15%",
+                paddingVertical: 10,
+                justifyContent: "space-between",
+                alignSelf: "center",
+                backgroundColor: "#0F172A",
+              }}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  alignSelf: "center",
+                }}
+              >
+                <CheckCircle color={"green"} />
+                <Text style={{ fontSize: 18, color: "#94A3B8" }}>
+                  {"  "}Registrasi Berhasil
+                </Text>
+              </View>
+              <View
+                style={{
+                  padding: 10,
+                  borderTopWidth: 1,
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  borderTopColor: "#1E293B",
+                }}
+              >
+                <Pressable onPress={() => setModalVisible(false)}>
+                  <Text style={{ fontSize: 16, color: "#94A3B8" }}>
+                    Nanti saja
+                  </Text>
+                </Pressable>
+                <View style={{ width: 1, backgroundColor: "#1E293B" }} />
+                <Pressable
+                  onPress={() => {
+                    setModalVisible(false);
+                    navigation.navigate("Login");
+                  }}
+                >
+                  <Text style={{ fontSize: 16, color: "#94A3B8" }}>
+                    Login sekarang
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          )}
+        </View>
+      </Modal>
       <View>
         <Text style={{ fontSize: 25, fontWeight: "bold", color: "#FFFFFF" }}>
           Buat Akun Baru.
@@ -62,7 +176,7 @@ const Login = ({ navigation }) => {
           </View>
           <View
             style={{
-              marginTop: 10,
+              marginTop: 5,
               paddingVertical: 5,
               borderWidth: 0.2,
               paddingHorizontal: 10,
@@ -75,10 +189,18 @@ const Login = ({ navigation }) => {
           >
             <User size={20} color={"#94A3B8"} style={{ marginRight: 5 }} />
             <TextInput
+              style={{ flex: 1, color: "#FFFFFF" }}
+              value={userInput.name}
+              onChangeText={(newText) => onInputUser("name", newText)}
               placeholder="Ex: Monkey D. Luffy"
               placeholderTextColor={"#94A3B8"}
             />
           </View>
+          {validationErrors.name && (
+            <Text style={{ fontSize: 12, fontWeight: "500", color: "#FF0033" }}>
+              *{validationErrors.name}
+            </Text>
+          )}
         </View>
 
         <View style={{ marginVertical: 15 }}>
@@ -91,7 +213,7 @@ const Login = ({ navigation }) => {
           </View>
           <View
             style={{
-              marginTop: 10,
+              marginTop: 5,
               paddingVertical: 5,
               borderWidth: 0.2,
               paddingHorizontal: 10,
@@ -104,10 +226,19 @@ const Login = ({ navigation }) => {
           >
             <Mail size={20} color={"#94A3B8"} style={{ marginRight: 5 }} />
             <TextInput
+              style={{ flex: 1, color: "#FFFFFF" }}
+              keyboardType="email-address"
+              value={userInput.email}
+              onChangeText={(newText) => onInputUser("email", newText)}
               placeholder="nama@gmail.com"
               placeholderTextColor={"#94A3B8"}
             />
           </View>
+          {validationErrors.email && (
+            <Text style={{ fontSize: 12, fontWeight: "500", color: "#FF0033" }}>
+              *{validationErrors.email}
+            </Text>
+          )}
         </View>
 
         <View>
@@ -120,6 +251,7 @@ const Login = ({ navigation }) => {
           </View>
           <View
             style={{
+              marginTop: 5,
               paddingVertical: 5,
               paddingHorizontal: 10,
               borderWidth: 0.2,
@@ -132,7 +264,9 @@ const Login = ({ navigation }) => {
           >
             <Lock size={20} color={"#94A3B8"} style={{ marginRight: 5 }} />
             <TextInput
-              style={{ flex: 1 }}
+              style={{ flex: 1, color: "#FFFFFF" }}
+              value={userInput.password}
+              onChangeText={(newText) => onInputUser("password", newText)}
               textContentType="password"
               secureTextEntry={!passVisible}
               placeholder="Minimal 8 karakter"
@@ -142,6 +276,11 @@ const Login = ({ navigation }) => {
               <PassIcon size={20} color={"#94A3B8"} />
             </Pressable>
           </View>
+          {validationErrors.password && (
+            <Text style={{ fontSize: 12, fontWeight: "500", color: "#FF0033" }}>
+              *{validationErrors.password}
+            </Text>
+          )}
         </View>
         <TouchableOpacity
           style={{
@@ -153,6 +292,7 @@ const Login = ({ navigation }) => {
             alignItems: "center",
             backgroundColor: "#FFFFFF",
           }}
+          onPress={onRegisterPress}
         >
           <Text style={{ fontSize: 16, fontWeight: "bold", color: "#0F172A" }}>
             Buat Akun{" "}
@@ -240,4 +380,4 @@ const Login = ({ navigation }) => {
   );
 };
 
-export default Login;
+export default Register;
