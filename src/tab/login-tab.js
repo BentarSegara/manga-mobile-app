@@ -156,7 +156,7 @@ const Login = ({ navigation }) => {
             >
               PASSWORD
             </Text>
-            <Pressable>
+            <Pressable onPress={() => navigation.navigate("ForgotPassword")}>
               <Text style={{ fontWeight: "500", color: "#38BDF8" }}>
                 Lupa Password?
               </Text>

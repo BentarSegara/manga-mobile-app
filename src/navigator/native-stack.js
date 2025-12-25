@@ -6,6 +6,8 @@ import Read from "../tab/read-tab";
 import Login from "../tab/login-tab";
 import Register from "../tab/register-tab";
 import SplashScreen from "../tab/splash-tab";
+import ResetPassword from "../tab/reset-password";
+import ForgotPassword from "../tab/forgot-password";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +23,8 @@ const NativeStack = () => {
       <Stack.Screen name="Read" component={Read} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <Stack.Screen name="ResetPassword" component={ResetPassword} />
     </Stack.Navigator>
   );
 };

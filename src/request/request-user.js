@@ -21,3 +21,28 @@ export const registerUser = async (newUser) => {
 
   return response.data;
 };
+
+export const confirmUserEmail = async (email) => {
+  const response = await request({
+    url: `${BASEURL}/confirm-email`,
+    data: {
+      email: email,
+    },
+    method: "post",
+  });
+
+  return response.data;
+};
+
+export const changeUserPassword = async ({ confirmedEmail, passwords }) => {
+  const response = await request({
+    url: `${BASEURL}/reset-password`,
+    data: {
+      email: confirmedEmail,
+      passwords: passwords,
+    },
+    method: "patch",
+  });
+
+  return response.data;
+};

@@ -1,5 +1,10 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { loginUser, registerUser } from "../request/request-user";
+import {
+  changeUserPassword,
+  confirmUserEmail,
+  loginUser,
+  registerUser,
+} from "../request/request-user";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AuthContext = createContext();
@@ -7,7 +12,6 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState({});
   const [userToken, setUserToken] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   const generateRandomToken = (length) => {
     const characters =
@@ -57,9 +61,21 @@ export const AuthProvider = ({ children }) => {
     ]);
   };
 
+  const changePassword = async (confirmedEmail, passwords) => {
+    const { errors } = await changeUserPassword({
+      confirmedEmail: confirmedEmail,
+      passwords: passwords,
+    });
+    if (errors) throw errors;
+  };
+
+  const confirmEmail = async (email) => {
+    const { errors } = await confirmUserEmail(email);
+    if (errors) throw errors;
+  };
+
   useEffect(() => {
     const checkLogin = async () => {
-      setIsLoading(true);
       try {
         const [user, token] = await Promise.all([
           AsyncStorage.getItem("userInfo"),
@@ -70,7 +86,6 @@ export const AuthProvider = ({ children }) => {
       } catch (err) {
         console.error(err.message);
       } finally {
-        setIsLoading(false);
       }
     };
     checkLogin();
@@ -78,7 +93,15 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ login, logout, register, isLoading, userInfo, userToken }}
+      value={{
+        login,
+        logout,
+        register,
+        confirmEmail,
+        changePassword,
+        userInfo,
+        userToken,
+      }}
     >
       {children}
     </AuthContext.Provider>
