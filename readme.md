@@ -294,5 +294,5 @@ Dikembangkan dengan ❤️ menggunakan React Native & Expo
 ---
 
 <p align="center">
-  <b>Komiku</b> © 2024 - Manga Reading App
+  <b>Nakamanga</b> © 2024 - Manga Reading App
 </p>
