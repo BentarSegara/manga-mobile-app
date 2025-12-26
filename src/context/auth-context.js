@@ -78,6 +78,13 @@ export const AuthProvider = ({ children }) => {
   const deleteAccount = async (id) => {
     const { errors } = await deleteUser(id);
     if (errors) throw errors;
+
+    setUserInfo({});
+    setUserToken(null);
+    await Promise.all([
+      AsyncStorage.removeItem("userToken"),
+      AsyncStorage.removeItem("userInfo"),
+    ]);
   };
 
   useEffect(() => {

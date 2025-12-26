@@ -2,10 +2,8 @@ import {
   Bell,
   BookOpen,
   ChevronRight,
-  CircleQuestionMarkIcon,
   Download,
   Heart,
-  HelpCircle,
   History,
   LogIn,
   LogOut,
@@ -104,12 +102,16 @@ const Profile = ({ navigation }) => {
     if (userToken) {
       try {
         await logout();
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Login" }],
+        });
       } catch (err) {
         console.error(err.message);
-      } finally {
       }
+    } else {
+      navigation.navigate("Login");
     }
-    navigation.navigate("Login");
   };
 
   const onDeletePress = async () => {
@@ -128,68 +130,29 @@ const Profile = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Modal visible={modalVisible} transparent={true}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
+        <View style={styles.modalContainer}>
           {isLoading ? (
-            <View
-              style={{
-                width: "80%",
-                height: "7%",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignSelf: "center",
-                alignItems: "center",
-                backgroundColor: "#0F172A",
-              }}
-            >
+            <View style={styles.loadingContainer}>
               <ActivityIndicator size={"small"} />
-              <Text style={{ fontSize: 16, color: "#94A3B8" }}>
+              <Text style={styles.modalText}>
                 {"  "}
                 Menghapus Akun
               </Text>
             </View>
           ) : (
-            <View
-              style={{
-                width: "80%",
-                height: "15%",
-                paddingVertical: 10,
-                justifyContent: "space-between",
-                alignSelf: "center",
-                backgroundColor: "#0F172A",
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: "center",
-                  alignSelf: "center",
-                }}
-              >
-                <Text style={{ fontSize: 18, color: "#94A3B8" }}>
-                  {"  "}Yakin ingin menghapus akan anda ?
+            <View style={styles.confirmationContainer}>
+              <View style={styles.confrimationLabel}>
+                <Text style={styles.confirmationText}>
+                  {"  "}Yakin ingin menghapus akun anda ?
                 </Text>
               </View>
-              <View
-                style={{
-                  padding: 10,
-                  borderTopWidth: 1,
-                  flexDirection: "row",
-                  justifyContent: "space-around",
-                  borderTopColor: "#1E293B",
-                }}
-              >
+              <View style={styles.confirmationButtonContainer}>
                 <Pressable onPress={() => setModalVisible(false)}>
-                  <Text style={{ fontSize: 16, color: "#94A3B8" }}>Tidak</Text>
+                  <Text style={styles.modalText}>Tidak</Text>
                 </Pressable>
-                <View style={{ width: 1, backgroundColor: "#1E293B" }} />
+                <View style={styles.dividingLine} />
                 <Pressable onPress={onDeletePress}>
-                  <Text style={{ fontSize: 16, color: "#94A3B8" }}>Ya</Text>
+                  <Text style={styles.modalText}>Ya</Text>
                 </Pressable>
               </View>
             </View>
@@ -339,7 +302,7 @@ const Profile = ({ navigation }) => {
             title="Hapus Akun"
             subtitle="Hapus akun anda secara permanen"
             onPress={() => {
-              setModalVisible(true);
+              userToken && setModalVisible(true);
             }}
           />
         </Section>
@@ -385,7 +348,7 @@ const Profile = ({ navigation }) => {
         <View style={styles.versionContainer}>
           <Text style={styles.versionText}>Komiku v1.0.0</Text>
           <Text style={styles.copyrightText}>
-            © 2024 Komiku. Build by Bentar Segara Buana
+            © 2024 NakaManga. Build by Bentar Segara Buana
           </Text>
         </View>
       </ScrollView>
@@ -590,6 +553,43 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#64748B",
   },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  loadingContainer: {
+    width: "80%",
+    height: "7%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignSelf: "center",
+    alignItems: "center",
+    backgroundColor: "#0F172A",
+  },
+  confirmationContainer: {
+    width: "80%",
+    height: "15%",
+    paddingVertical: 10,
+    justifyContent: "space-between",
+    alignSelf: "center",
+    backgroundColor: "#0F172A",
+  },
+  confirmationButtonContainer: {
+    padding: 10,
+    borderTopWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    borderTopColor: "#1E293B",
+  },
+  dividingLine: { width: 1, backgroundColor: "#1E293B" },
+  confrimationLabel: {
+    flex: 1,
+    justifyContent: "center",
+    alignSelf: "center",
+  },
+  modalText: { fontSize: 16, color: "#94A3B8" },
+  confirmationText: { fontSize: 18, color: "#94A3B8" },
 });
 
 export default Profile;

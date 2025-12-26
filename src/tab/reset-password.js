@@ -4,10 +4,7 @@ import {
   Chrome,
   Eye,
   EyeClosed,
-  Facebook,
   Lock,
-  Mail,
-  Sun,
 } from "lucide-react-native";
 import React, { useState } from "react";
 import {
@@ -15,10 +12,10 @@ import {
   Modal,
   Pressable,
   StatusBar,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  useWindowDimensions,
   View,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
@@ -66,33 +63,13 @@ const ResetPassword = ({ navigation, route }) => {
   return (
     <LinearGradient
       colors={["#1E293B", "#0F172A"]}
-      style={{
-        flex: 1,
-        paddingHorizontal: 20,
-        justifyContent: "center",
-      }}
+      style={styles.mainContainer}
     >
       <StatusBar hidden={true} />
       <Modal visible={modalVisible} transparent={true}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
+        <View style={styles.modalOverlay}>
           {isLoading ? (
-            <View
-              style={{
-                width: "80%",
-                height: "7%",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignSelf: "center",
-                alignItems: "center",
-                backgroundColor: "#0F172A",
-              }}
-            >
+            <View style={styles.loadingContainer}>
               <ActivityIndicator size={"small"} />
               <Text style={{ fontSize: 16, color: "#94A3B8" }}>
                 {"  "}
@@ -100,37 +77,14 @@ const ResetPassword = ({ navigation, route }) => {
               </Text>
             </View>
           ) : (
-            <View
-              style={{
-                width: "80%",
-                height: "15%",
-                paddingVertical: 10,
-                justifyContent: "space-between",
-                alignSelf: "center",
-                backgroundColor: "#0F172A",
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  alignItems: "center",
-                  alignSelf: "center",
-                }}
-              >
+            <View style={styles.confirmationContainer}>
+              <View style={styles.successIconContainer}>
                 <CheckCircle color={"green"} />
                 <Text style={{ fontSize: 18, color: "#94A3B8" }}>
                   {"  "}Password Berhasil Diubah
                 </Text>
               </View>
-              <View
-                style={{
-                  padding: 10,
-                  borderTopWidth: 1,
-                  alignItems: "center",
-                  borderTopColor: "#1E293B",
-                }}
-              >
+              <View style={styles.confirmationButtonsRow}>
                 <TouchableOpacity
                   onPress={() => {
                     setModalVisible(false);
@@ -147,10 +101,8 @@ const ResetPassword = ({ navigation, route }) => {
         </View>
       </Modal>
       <View>
-        <Text style={{ fontSize: 25, fontWeight: "bold", color: "#FFFFFF" }}>
-          Reset Password
-        </Text>
-        <Text style={{ fontSize: 16, fontWeight: "500", color: "#94A3B8" }}>
+        <Text style={styles.titleText}>Reset Password</Text>
+        <Text style={styles.subtitleText}>
           Buat password baru yang kuat untuk akun Anda.
         </Text>
       </View>
@@ -158,11 +110,7 @@ const ResetPassword = ({ navigation, route }) => {
       <View style={{ marginTop: 50, marginBottom: 25 }}>
         <View>
           <View>
-            <Text
-              style={{ fontSize: 12, fontWeight: "bold", color: "#94A3B8" }}
-            >
-              PASSWORD
-            </Text>
+            <Text style={styles.labelText}>PASSWORD</Text>
           </View>
           <View
             style={{
@@ -192,33 +140,15 @@ const ResetPassword = ({ navigation, route }) => {
             </Pressable>
           </View>
           {validationErrors.password && (
-            <Text style={{ fontSize: 12, fontWeight: "500", color: "#FF0033" }}>
-              *{validationErrors.password}
-            </Text>
+            <Text style={styles.errorText}>*{validationErrors.password}</Text>
           )}
         </View>
 
         <View style={{ marginVertical: 15 }}>
           <View>
-            <Text
-              style={{ fontSize: 12, fontWeight: "bold", color: "#94A3B8" }}
-            >
-              KONFIRMASI PASSWORD
-            </Text>
+            <Text style={styles.labelText}>KONFIRMASI PASSWORD</Text>
           </View>
-          <View
-            style={{
-              marginTop: 5,
-              paddingVertical: 5,
-              paddingHorizontal: 10,
-              borderWidth: 0.2,
-              borderRadius: 10,
-              flexDirection: "row",
-              alignItems: "center",
-              borderColor: "#94A3B8",
-              backgroundColor: "#0F172A",
-            }}
-          >
+          <View style={styles.inputContainer}>
             <Lock size={20} color={"#94A3B8"} style={{ marginRight: 5 }} />
             <TextInput
               style={{ flex: 1, color: "#FFFFFF" }}
@@ -233,30 +163,104 @@ const ResetPassword = ({ navigation, route }) => {
             />
           </View>
           {validationErrors.confirmedPassword && (
-            <Text style={{ fontSize: 12, fontWeight: "500", color: "#FF0033" }}>
+            <Text style={styles.errorText}>
               *{validationErrors.confirmedPassword}
             </Text>
           )}
         </View>
-        <TouchableOpacity
-          style={{
-            padding: 15,
-            borderRadius: 10,
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#FFFFFF",
-          }}
-          onPress={onSavePress}
-        >
-          <Text style={{ fontSize: 16, fontWeight: "bold", color: "#0F172A" }}>
-            Simpan Password{" "}
-          </Text>
+        <TouchableOpacity style={styles.submitButton} onPress={onSavePress}>
+          <Text style={styles.submitButtonText}>Simpan Password </Text>
           <ArrowRight color={"#0F172A"} />
         </TouchableOpacity>
       </View>
     </LinearGradient>
   );
 };
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
+    justifyContent: "center",
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  loadingContainer: {
+    width: "80%",
+    height: "7%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignSelf: "center",
+    alignItems: "center",
+    backgroundColor: "#0F172A",
+  },
+  confirmationContainer: {
+    width: "80%",
+    height: "15%",
+    paddingVertical: 10,
+    justifyContent: "space-between",
+    alignSelf: "center",
+    backgroundColor: "#0F172A",
+  },
+  successIconContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "center",
+  },
+  confirmationButtonsRow: {
+    padding: 10,
+    borderTopWidth: 1,
+    alignItems: "center",
+    borderTopColor: "#1E293B",
+  },
+  titleText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+  },
+  subtitleText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#94A3B8",
+  },
+  labelText: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "#94A3B8",
+  },
+  inputContainer: {
+    marginTop: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderWidth: 0.2,
+    borderRadius: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    borderColor: "#94A3B8",
+    backgroundColor: "#0F172A",
+  },
+  errorText: {
+    fontSize: 12,
+    fontWeight: "500",
+    color: "#FF0033",
+  },
+  submitButton: {
+    padding: 15,
+    borderRadius: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+  },
+  submitButtonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#0F172A",
+  },
+});
 
 export default ResetPassword;

@@ -1,7 +1,7 @@
 import { request } from "./request.js";
 
 // const BASEURL = "http://10.201.2.125:3000";
-const BASEURL = "http://192.168.0.102:3000/user";
+const BASEURL = "http://192.168.0.100:3000/user";
 
 export const loginUser = async (user) => {
   const response = await request({
@@ -48,8 +48,6 @@ export const changeUserPassword = async ({ confirmedEmail, passwords }) => {
 };
 
 export const deleteUser = async (id) => {
-  console.log(id);
-
   const response = await request({
     url: `${BASEURL}/${id}/delete`,
     method: "delete",

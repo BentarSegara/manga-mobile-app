@@ -1,12 +1,4 @@
-import {
-  Bell,
-  Clock,
-  Dot,
-  Flame,
-  Search,
-  Star,
-  Sun,
-} from "lucide-react-native";
+import { Bell, Clock, Flame, Search, Star, Sun } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
@@ -43,7 +35,7 @@ const Section = ({ style, title, Icon, children }) => {
 
 const Home = () => {
   const { userInfo } = useAuth();
-  const { width, height } = useWindowDimensions();
+  const { height } = useWindowDimensions();
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [topManga, setTopManga] = useState([]);

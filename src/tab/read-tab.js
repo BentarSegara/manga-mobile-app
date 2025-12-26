@@ -131,7 +131,7 @@ const Read = ({ navigation, route }) => {
           </View>
           <View style={styles.progressBarContainer}>
             <View
-              style={{ flex: 1, width: "10%", backgroundColor: "#38BDF8" }}
+              style={styles.progressBarFill}
             ></View>
           </View>
         </View>
@@ -232,6 +232,11 @@ const styles = StyleSheet.create({
   navButtonText: {
     fontSize: 12,
     color: "#94A3B8",
+  },
+  progressBarFill: {
+    flex: 1,
+    width: "10%",
+    backgroundColor: "#38BDF8",
   },
 });
 

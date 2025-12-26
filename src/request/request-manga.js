@@ -2,7 +2,7 @@ import { Image } from "react-native";
 import { request } from "./request.js";
 
 // const BASEURL = "http://10.201.2.125:3000";
-const BASEURL = "http://192.168.0.102:3000/manga";
+const BASEURL = "http://192.168.0.100:3000/manga";
 
 const getImageRatio = (uri) =>
   new Promise((resolve) => {

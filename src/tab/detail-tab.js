@@ -199,7 +199,7 @@ const Detail = ({ navigation, route }) => {
                 />
               </View>
             </View>
-            <View style={{ marginTop: 20, marginBottom: 50 }}>
+            <View style={styles.marginVertical20}>
               <View style={styles.chapterHeader}>
                 <View>
                   <Text style={styles.chapterHeaderTitle}>
@@ -381,6 +381,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#1E293B",
+  },
+  marginVertical20: {
+    marginTop: 20,
+    marginBottom: 50,
   },
 });
 

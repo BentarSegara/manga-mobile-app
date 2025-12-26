@@ -105,7 +105,7 @@ const SplashScreen = ({ navigation }) => {
           },
         ]}
       >
-        KOMIKU
+        NAKAMANGA
       </Animated.Text>
 
       <Animated.Text

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import {
   FlatList,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   useWindowDimensions,
@@ -76,7 +75,7 @@ const Library = () => {
 
       {menus[0].focused ? (
         <FlatList
-          style={{ marginTop: 10, marginBottom: 12, marginHorizontal: 20 }}
+          style={styles.historyListStyle}
           key={0}
           data={favArray}
           ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
@@ -85,7 +84,7 @@ const Library = () => {
         />
       ) : menus[1].focused ? (
         <FlatList
-          style={{ marginTop: 10, marginBottom: 1, marginHorizontal: 20 }}
+          style={styles.favoritListStyle}
           key={1}
           numColumns={2}
           columnWrapperStyle={{ justifyContent: "space-between" }}
@@ -106,8 +105,6 @@ const Library = () => {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    // paddingVertical: 50,
-    // paddingHorizontal: 20,
     backgroundColor: "#0F172A",
   },
   header: {
@@ -169,6 +166,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#1E293B",
+  },
+  historyListStyle: {
+    marginTop: 10,
+    marginBottom: 12,
+    marginHorizontal: 20,
+  },
+  favoritListStyle: {
+    marginTop: 10,
+    marginBottom: 1,
+    marginHorizontal: 20,
   },
 });
 

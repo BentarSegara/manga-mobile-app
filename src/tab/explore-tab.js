@@ -140,9 +140,7 @@ const Explore = () => {
                   </Text>
                   <ChevronRight size={20} color={"#94A3B8"} />
                 </View>
-                <View
-                  style={{ borderBottomWidth: 1, borderBottomColor: "#1E293B" }}
-                ></View>
+                <View style={styles.superiorDivider}></View>
               </TouchableOpacity>
             )}
           />
@@ -230,6 +228,10 @@ const styles = StyleSheet.create({
   superiorItemText: {
     fontWeight: "500",
     color: "#94A3B8",
+  },
+  superiorDivider: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#1E293B",
   },
 });
 
