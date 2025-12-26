@@ -149,6 +149,7 @@ komiku-fe/
    #clone bagian frontend
    git clone <repository-url>
    cd komiku-fe
+   
    #clone bagian backend
    git clone <https://github.com/BentarSegara/manga-mobile-app.git>
    cd komiku-be
