@@ -146,20 +146,24 @@ komiku-fe/
 
 1. **Clone repository**
    ```bash
+   #clone bagian frontend
    git clone <repository-url>
    cd komiku-fe
+   #clone bagian backend
+   git clone <https://github.com/BentarSegara/manga-mobile-app.git>
+   cd komiku-be
    ```
 
 2. **Install dependencies**
    ```bash
+   #di kedua projek (fe dan be)
    npm install
-
    ```
 
 3. **Jalankan Backend**
    ```bash
-   cek repositori [manga-mobile-app-be] (https://github.com/BentarSegara/manga-mobile-app.git)
-   untuk melihat lebih detail.
+   #pada bagian backend
+   npm run dev
    ```
    
 4. **Jalankan aplikasi**
