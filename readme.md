@@ -153,9 +153,17 @@ komiku-fe/
 2. **Install dependencies**
    ```bash
    npm install
+
    ```
 
-3. **Jalankan aplikasi**
+3. **Jalankan Backend**
+   ```bash
+   info lebih lanjut terkait bagiam backed, dapat -
+   dilihat pada pada repo berikut:
+   <https://github.com/BentarSegara/manga-mobile-app-be.git>
+   ```
+   
+4. **Jalankan aplikasi**
    ```bash
    # Development mode
    npm start
