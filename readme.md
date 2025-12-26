@@ -158,9 +158,8 @@ komiku-fe/
 
 3. **Jalankan Backend**
    ```bash
-   info lebih lanjut terkait bagiam backed, dapat -
-   dilihat pada pada repo berikut:
-   <https://github.com/BentarSegara/manga-mobile-app-be.git>
+   cek repositori [manga-mobile-app-be] (https://github.com/BentarSegara/manga-mobile-app.git)
+   untuk melihat lebih detail.
    ```
    
 4. **Jalankan aplikasi**
