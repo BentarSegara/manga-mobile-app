@@ -169,12 +169,10 @@ komiku-fe/
    ```
 
 3. **Jalankan Backend**
-
    ```bash
    #pada bagian backend
    npm run dev
    ```
-
 4. **Jalankan aplikasi**
 
    ```bash
@@ -244,7 +242,7 @@ Aplikasi ini terhubung ke backend API dengan endpoint berikut:
 
 ## 📱 Screenshots
 
-> _Tambahkan screenshot aplikasi di sini_
+>
 
 ---
 
